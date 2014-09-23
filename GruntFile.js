@@ -102,10 +102,16 @@ module.exports = function(grunt) {
         },
 
         connect: {
-            server: {
+            local: {
                 options: {
                     base: '.',
                     port: 9999
+                }
+            }, 
+            cdn: {
+                options: {
+                    base: '.',
+                    port: 9998
                 }
             }
         },
@@ -118,7 +124,7 @@ module.exports = function(grunt) {
             },
             cdn: {
                 options: {
-                    urls: ['http://localhost:9999/test/cdn-test.html'],
+                    urls: ['http://localhost:9998/test/cdn-test.html'],
                     run: true
                 }
             }
@@ -187,11 +193,11 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('build', ['jshint', 'browserify', 'uglify:dist', 'uglify:loader']);
-    grunt.registerTask('testlocal', ['connect', 'mocha:local']);
-    grunt.registerTask('testcdn', ['connect', 'mocha:cdn']);
+    grunt.registerTask('testlocal', ['connect:local', 'mocha:local']);
+    grunt.registerTask('testcdn', ['connect:cdn', 'mocha:cdn']);
     grunt.registerTask('test', ['build', 'testlocal']);
     grunt.registerTask('dist', ['test', 'bump', 'update_json', 'replace', 'usebanner']);
     grunt.registerTask('publish', ['dist', 'azureblob', 'testcdn']);
-    grunt.registerTask('connectstay', ['connect:server:keepalive']);
+    grunt.registerTask('connectstay', ['connect:local:keepalive']);
     grunt.registerTask('default', ['build']);
 };
