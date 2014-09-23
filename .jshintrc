@@ -18,6 +18,7 @@
     "strict": false,
     "trailing": true,
     "smarttabs": true,
+    "scripturl": true,
     "globals" : {
         "chrome": true
     }

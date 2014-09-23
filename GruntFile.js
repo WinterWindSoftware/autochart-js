@@ -186,11 +186,10 @@ module.exports = function(grunt) {
         // }
     });
 
-    grunt.registerTask('build', ['browserify', 'uglify:dist', 'uglify:loader', 'replace', 'usebanner']);
-    grunt.registerTask('dev', ['build', 'connect', 'watch']);
+    grunt.registerTask('build', ['jshint', 'browserify', 'uglify:dist', 'uglify:loader']);
     grunt.registerTask('test', ['build', 'connect', 'mocha:local']);
-    grunt.registerTask('default', ['build']);
-    grunt.registerTask('dist', ['jshint', 'bump', 'update_json', 'build']);
-    grunt.registerTask('publish', ['azureblob', 'connect', 'mocha:cdn']);
+    grunt.registerTask('dist', ['build', 'bump', 'update_json', 'replace', 'usebanner', 'azureblob']);
+    grunt.registerTask('testcdn', ['connect', 'mocha:cdn']);
     grunt.registerTask('connectstay', ['connect:server:keepalive']);
+    grunt.registerTask('default', ['build']);
 };
