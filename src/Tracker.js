@@ -1,4 +1,3 @@
-'use strict';
 //Imports
 var config = require('./Config');
 var KeenTrack = require('../bower_components/keen-js/dist/keen-tracker.js');
@@ -9,12 +8,22 @@ var Utils = require('./Utils');
 var ACTIONS_COLLECTION = 'VisitorActions';
 var TAGS_COLLECTION = 'VisitorTags';
 
-//ctor
+/**
+ * Tracking API instance.
+ * @constructor
+ */
 
 function Tracker() {}
 
 //@accountKey: String
 //@context: { session: { visitorId, sessionId, referrer, userAgent, startTime }, page: { url} }
+
+/**
+ * Initialise the Tracker with account key and custom options.
+ * @param  {string} accountKey - unique tracking key for your AutoChart account. Required.
+ * @param  {object} options - Array of options to override certain tracking behaviour
+ * @param  {BrowserContext} context - tracker uses this to access browser data (DOM, URL, cookies, etc.)
+ */
 Tracker.prototype.init = function(accountKey, options, context) {
     if (!accountKey) {
         throw new Error('accountKey must be specified');
@@ -67,16 +76,36 @@ Tracker.prototype.init = function(accountKey, options, context) {
 // =============================================================================================
 // TRACKING API FUNCTIONS
 // =============================================================================================
+/**
+ * Send a 'PageView' VisitorAction event. This is automatically called in init so is usually not required.
+ * @param  {function} success - callback fired when event successfully sent.
+ * @param  {function} error - callback fired when event successfully sent.
+ */
 Tracker.prototype.page = function(success, error) {
     return this._trackVisitorAction('PageView', null, null, success, error);
 };
 
+/**
+ * Send a 'VehicleView' VisitorAction event for a specific vehicle.
+ * @param  {Vehicle} vehicle
+ * @param  {Date} timestamp - time the event was sent. If not specified, defaults to Date.now().
+ * @param  {function} success - callback fired when event successfully sent.
+ * @param  {function} error - callback fired when event successfully sent.
+ */
 Tracker.prototype.trackVehicleView = function(vehicle, timestamp, success, error) {
     return this._trackVisitorAction('VehicleView', {
         vehicles: [vehicle]
     }, timestamp, success, error);
 };
 
+/**
+ * Send a 'VehicleAction' VisitorAction event for a specific vehicle.
+ * @param  {Vehicle} vehicle
+ * @param  {string} actionCategory - category of the action, e.g. 'Save', 'Compare', 'Print'
+ * @param  {Date} timestamp - time the event was sent. If not specified, defaults to Date.now().
+ * @param  {function} success - callback fired when event successfully sent.
+ * @param  {function} error - callback fired when event successfully sent.
+ */
 Tracker.prototype.trackVehicleAction = function(vehicle, actionCategory, timestamp, success, error) {
     return this._trackVisitorAction('VehicleAction', {
         vehicles: [vehicle],
@@ -85,18 +114,38 @@ Tracker.prototype.trackVehicleAction = function(vehicle, actionCategory, timesta
     timestamp, success, error);
 };
 
+/**
+ * Sends a 'Search' VisitorAction event for a specific vehicle.
+ * @param  {SearchCriteria} searchCriteria - criteria used to do the search.
+ * @param  {Date} timestamp - time the event was sent. If not specified, defaults to Date.now().
+ * @param  {function} success - callback fired when event successfully sent.
+ * @param  {function} error - callback fired when event successfully sent.
+ */
 Tracker.prototype.trackSearch = function(searchCriteria, timestamp, success, error) {
     return this._trackVisitorAction('Search', {
         searchCriteria: searchCriteria
     }, timestamp, success, error);
 };
 
+/**
+ * Sends a 'VisitIntent' VisitorAction event for a specific vehicle.
+ * @param  {string} intentAction
+ * @param  {Date} timestamp - time the event was sent. If not specified, defaults to Date.now().
+ * @param  {function} success - callback fired when event successfully sent.
+ * @param  {function} error - callback fired when event successfully sent.
+ */
 Tracker.prototype.trackVisitIntent = function(intentAction, timestamp, success, error) {
     return this._trackVisitorAction('VisitIntent', {
         intentAction: intentAction
     }, timestamp, success, error);
 };
 
+/**
+ * Sends a Tag event with one or more tags.
+ * @param  {[string]} tags - array of tags to associate with this visitor. Required.
+ * @param  {function} success - callback fired when event successfully sent.
+ * @param  {function} error - callback fired when event successfully sent.
+ */
 Tracker.prototype.tag = function(tags, success, error) {
     this._ensureInit();
     if (!tags) {
@@ -113,26 +162,14 @@ Tracker.prototype.tag = function(tags, success, error) {
     return this.dispatcher.addEvent(TAGS_COLLECTION, actionData, this._getEventCallback('Tag', success, actionData), this._getErrorCallback(error, actionData));
 };
 
-Tracker.prototype._getErrorCallback = function(overrideCallback, evtData) {
-    return this._getEventCallback('Error', overrideCallback, evtData);
-};
 
-Tracker.prototype._getEventCallback = function(eventSuffix, overrideCallback, evtData) {
-    var self = this;
-    var cb = function(response) {
-        if (self._options.raiseEvents && document.dispatchEvent) {
-            var evt = new CustomEvent('AutoChart_' + eventSuffix, {
-                detail: evtData
-            });
-            document.dispatchEvent(evt);
-        }
-        if (overrideCallback) {
-            overrideCallback(response);
-        }
-    };
-    return cb;
-};
-
+/**
+ * Sends a Lead event after visitor has performed an action such as submitting an enquiry form.
+ * @param  {Lead} lead
+ * @param  {Date} timestamp - time the event was sent. If not specified, defaults to Date.now().
+ * @param  {function} success - callback fired when event successfully sent.
+ * @param  {function} error - callback fired when event successfully sent.
+ */
 Tracker.prototype.trackLead = function(lead, timestamp, success, error) {
     this._ensureInit();
     if (!lead) {
@@ -148,6 +185,14 @@ Tracker.prototype.trackLead = function(lead, timestamp, success, error) {
     return this.dispatcher.addEvent('Leads', data, this._getEventCallback('Lead', success, data), this._getErrorCallback(error, data));
 };
 
+/**
+ * Tells the Tracker to send a lead event whenever a form is submitted.
+ * @param  {HTMLElement} form - <form> node
+ * @param  {function} leadFunction - function which will be evaluated when the form is submitted. It must return a Lead object which will then be sent to AutoChart.
+ * @param  {Date} timestamp - time the event was sent. If not specified, defaults to Date.now().
+ * @param  {function} success - callback fired when event successfully sent.
+ * @param  {function} error - callback fired when event successfully sent.
+ */
 Tracker.prototype.trackLeadForm = function(form, leadFunction, timestamp, success, error) {
     var self = this;
     self._ensureInit();
@@ -183,7 +228,6 @@ Tracker.prototype.trackLeadForm = function(form, leadFunction, timestamp, succes
     }
 };
 
-
 // =============================================================================================
 // PRIVATES
 // =============================================================================================
@@ -215,6 +259,25 @@ Tracker.prototype._callback = function(fn) {
     return this;
 };
 
+Tracker.prototype._getErrorCallback = function(overrideCallback, evtData) {
+    return this._getEventCallback('Error', overrideCallback, evtData);
+};
+
+Tracker.prototype._getEventCallback = function(eventSuffix, overrideCallback, evtData) {
+    var self = this;
+    var cb = function(response) {
+        if (self._options.raiseEvents && document.dispatchEvent) {
+            var evt = new CustomEvent('AutoChart_' + eventSuffix, {
+                detail: evtData
+            });
+            document.dispatchEvent(evt);
+        }
+        if (overrideCallback) {
+            overrideCallback(response);
+        }
+    };
+    return cb;
+};
 
 //======================================================================================================
 // Export autochart global singleton and replay queued async methods
