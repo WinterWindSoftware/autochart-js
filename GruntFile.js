@@ -126,30 +126,16 @@ module.exports = function(grunt) {
         bump: {
             options: {
                 files: ['package.json'],
-                updateConfigs: ['pkg'],
-                commit: false,
-                createTag: false,
-                push: false
-            }
-        },
-        gitcommit: {
-            dist: {
-                options: {
-                    message: 'v<%=pkg.version%>',
-                    noVerify: true,
-                    noStatus: false,
-                    // ignoreEmpty: true
-                },
-                files: {
-                    src: ['package.json']
-                }
-            }
-        },
-        gittag: {
-            dist: {
-                options: {
-                    tag: '<%=pkg.version%>'
-                }
+                updateConfigs: [],
+                commit: true,
+                commitMessage: 'Release v%VERSION%',
+                commitFiles: ['package.json'],
+                createTag: true,
+                tagName: 'v%VERSION%',
+                tagMessage: 'Version %VERSION%',
+                push: false,
+                pushTo: 'origin',
+                gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d'
             }
         },
         jshint: {
@@ -204,7 +190,7 @@ module.exports = function(grunt) {
     grunt.registerTask('dev', ['build', 'connect', 'watch']);
     grunt.registerTask('test', ['build', 'connect', 'mocha:local']);
     grunt.registerTask('default', ['build']);
-    grunt.registerTask('dist', ['jshint', 'bump', 'update_json', 'build', 'gitcommit:dist', 'gittag:dist']);
+    grunt.registerTask('dist', ['jshint', 'bump', 'update_json', 'build']);
     grunt.registerTask('publish', ['azureblob', 'connect', 'mocha:cdn']);
     grunt.registerTask('connectstay', ['connect:server:keepalive']);
 };
