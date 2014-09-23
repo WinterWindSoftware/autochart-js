@@ -187,9 +187,11 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('build', ['jshint', 'browserify', 'uglify:dist', 'uglify:loader']);
-    grunt.registerTask('test', ['build', 'connect', 'mocha:local']);
-    grunt.registerTask('dist', ['build', 'bump', 'update_json', 'replace', 'usebanner', 'azureblob']);
+    grunt.registerTask('testlocal', ['connect', 'mocha:local']);
     grunt.registerTask('testcdn', ['connect', 'mocha:cdn']);
+    grunt.registerTask('test', ['build', 'testlocal']);
+    grunt.registerTask('dist', ['test', 'bump', 'update_json', 'replace', 'usebanner']);
+    grunt.registerTask('publish', ['dist', 'azureblob', 'testcdn']);
     grunt.registerTask('connectstay', ['connect:server:keepalive']);
     grunt.registerTask('default', ['build']);
 };
