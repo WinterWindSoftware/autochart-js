@@ -1,0 +1,22 @@
+{
+    "esnext": true,
+    "bitwise": true,
+    "camelcase": true,
+    "curly": true,
+    "eqeqeq": true,
+    "immed": true,
+    "latedef": true,
+    "newcap": true,
+    "noarg": true,
+    "quotmark": "single",
+    "regexp": true,
+    "strict": false,
+    "trailing": true,
+    "smarttabs": true,
+    "indent": 4,
+    "undef": true,
+    "unused": true,
+    "node": false,
+    "browser": true,
+    "predef": ["describe", "it", "xit", "before", "beforeEach", "after", "afterEach", "chai", "AutoChartTracker", "AutoChart"]
+}

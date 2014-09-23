@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>AutoChart Custom Site script tester</title>
+  <!-- Test Framework Assets -->
+  <link rel="stylesheet" href="./lib/mocha/mocha.css" />
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  
+  <script type="text/javascript">
+  //Async Loader script
+  window.autochart=window.autochart||[],window.autochart.methods=["init","page","trackVehicleView","trackSearch","trackVisitIntent","tag","trackLead","trackLeadForm","trackVehicleAction"],window.autochart.factory=function(a){return function(){var b=Array.prototype.slice.call(arguments);return b.unshift(a),window.autochart.push(b),window.autochart}};for(var i=0;i<window.autochart.methods.length;i++){var method=window.autochart.methods[i];window.autochart[method]=window.autochart.factory(method)}window.autochart.load=function(a,b){var c=document.createElement("script");c.type="text/javascript",c.async=!0,c.src="https://portal.autochart.io/scripts/autochart.track.min.js?v="+b;var d=document.getElementsByTagName("script")[0];d.parentNode.insertBefore(c,d),window.autochart.init(a)},window.autochart.SDK_VERSION="0.4.3",
+  window.autochart.load("53ee02494b95d5440c890688",window.autochart.SDK_VERSION);
+  </script>
+  <script type="text/javascript" src="https://portal.autochart.io/scripts/clientsites/priority-chevrolet.min.js" async></script>
+
+</head>
+<body>
+<h2>Custom page tester</h2>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{
+  "name": "autochart-tracker",
+  "version": "0.5.3",
+  "description": "JavaScript API for tracking visitor activities on automotive websites with AutoChart.io",
+  "author": "Paul Swail <paul@autochart.io>",
+  "license": "MIT",
+  "homepage": "https://github.com/paulswail/autochart-tracker",
+  "bugs": {
+    "url": "https://github.com/paulswail/autochart-tracker/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/paulswail/autochart-tracker.git"
+  },
+  "keywords": [
+    "automotive",
+    "analytics",
+    "tracking",
+    "car dealer", 
+    "autochart"
+  ],
+  "scripts": {
+    "start": "grunt",
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "browserify": "^3.43.0",
+    "grunt": "^0.4.4",
+    "grunt-azureblob": "^0.1.2",
+    "grunt-banner": "^0.2.3",
+    "grunt-browserify": "^2.0.7",
+    "grunt-bump": "0.0.15",
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-connect": "^0.7.1",
+    "grunt-contrib-copy": "^0.5.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-uglify": "^0.4.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-git": "^0.2.14",
+    "grunt-jsdox": "^0.1.6",
+    "grunt-mocha": "^0.4.10",
+    "grunt-replace": "^0.7.7",
+    "grunt-saucelabs": "^5.1.2",
+    "grunt-update-json": "^0.1.3",
+    "load-grunt-tasks": "^0.6.0"
+  },
+  "dependencies": {
+    "uri-js": "^1.4.2"
+  }
+}
