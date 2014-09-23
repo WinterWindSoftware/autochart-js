@@ -1,14 +1,12 @@
 # autochart-js
 
-A JavaScript API for tracking automotive website events with [AutoChart.io](https://autochart.io).
+A client-side JavaScript API for tracking automotive website events with [AutoChart.io](https://autochart.io).
 
 ## Pre-Requisite
 Login to the [AutoChart portal](https://portal.autochart.io) and get the **Tracking Key** from your account's settings page.
 
-## Quick Start
-
-### Step 1 - Include autochart.track.js on your page
-Add the following snippet should be added immediately before the closing `</head>` tag on the page. It will download asynchronously so it won't block your page from loading.
+## Installation
+Add the following snippet should be added immediately before the closing `</head>` tag on each page of your site. It will download the `autochart.track.min.js` file asynchronously from the AutoChart CDN (so it won't block your page from loading).
 Make sure to update `<YourCustomerAccountIdHere>` with your account's Tracking Key.
 
 ```html
@@ -22,7 +20,8 @@ window.autochart.load("<YourCustomerAccountIdHere>",window.autochart.SDK_VERSION
 
 ```
 
-### Step 2 - Add calls to autochart.track* functions to send event data to AutoChart
+## Usage
+Add calls to `autochart.track*` functions to send event data to AutoChart.
 TODO: add usage examples
 
 ## Support
