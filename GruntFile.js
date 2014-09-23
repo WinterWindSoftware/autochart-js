@@ -164,11 +164,6 @@ module.exports = function(grunt) {
                     'keywords',
                     'license']
             }
-        },
-        githooks: {
-            all: {
-                'pre-commit': 'testlocal'
-            }
         }
         // jsdox: {
         //     generate: {
