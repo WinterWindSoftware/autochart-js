@@ -42,7 +42,7 @@ window.autochart.load = function (apiKey, sdkVersion) {
 // Add a version so we can keep track of what's out there in the wild.
 window.autochart.SDK_VERSION = '@@AUTOCHART_SDK_VERSION';
 
-/*
-  Replace <YourCustomerAccountIdHere> below with your customer API customerKey
+/*!
+  Replace <YourCustomerAccountIdHere> below with your customer API tracking key
 */
 window.autochart.load('<YourCustomerAccountIdHere>', window.autochart.SDK_VERSION);

@@ -5,7 +5,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         cdnContainerUrl: 'https://az578655.vo.msecnd.net/tracker',
-        banner: '/* <%= pkg.name %> (v<%= pkg.version %>) -- ' + '<%= pkg.description %> -- ' + 'Copyright AutoChart 2014 (https://autochart.io) */',
+        banner: '/* <%= pkg.name %> (v<%= pkg.version %>) -- ' + '<%= pkg.description %> */',
 
         browserify: {
             dist: {
