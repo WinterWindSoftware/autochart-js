@@ -92,7 +92,7 @@ module.exports = function(grunt) {
                     cwd: 'dist',
                     src: '*.js',
                     dest: '<%= pkg.version %>/'
-                },{
+                }, {
                     expand: true,
                     cwd: 'dist',
                     src: '*.js',
@@ -107,7 +107,7 @@ module.exports = function(grunt) {
                     base: '.',
                     port: 9999
                 }
-            }, 
+            },
             cdn: {
                 options: {
                     base: '.',
@@ -165,6 +165,11 @@ module.exports = function(grunt) {
                     'license']
             }
         },
+        githooks: {
+            all: {
+                'pre-commit': 'testlocal'
+            }
+        }
         // jsdox: {
         //     generate: {
         //         options: {
