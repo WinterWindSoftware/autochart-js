@@ -129,21 +129,6 @@ module.exports = function(grunt) {
                 }
             }
         },
-        bump: {
-            options: {
-                files: ['package.json'],
-                updateConfigs: ['pkg'],
-                commit: true,
-                commitMessage: 'Release v%VERSION%',
-                commitFiles: ['package.json'],
-                createTag: true,
-                tagName: 'v%VERSION%',
-                tagMessage: 'Version %VERSION%',
-                push: false,
-                pushTo: 'origin',
-                gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d'
-            }
-        },
         jshint: {
             options: {
                 jshintrc: true
@@ -196,7 +181,7 @@ module.exports = function(grunt) {
     grunt.registerTask('testlocal', ['connect:local', 'mocha:local']);
     grunt.registerTask('testcdn', ['connect:cdn', 'mocha:cdn']);
     grunt.registerTask('test', ['build', 'testlocal']);
-    grunt.registerTask('dist', ['test', 'bump', 'update_json', 'replace', 'usebanner']);
+    grunt.registerTask('dist', ['test', 'update_json', 'replace', 'usebanner']);
     grunt.registerTask('publish', ['dist', 'azureblob', 'testcdn']);
     grunt.registerTask('connectstay', ['connect:local:keepalive']);
     grunt.registerTask('default', ['build']);
