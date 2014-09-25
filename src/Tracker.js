@@ -237,6 +237,9 @@ Tracker.prototype.trackLeadForm = function(form, leadFunction, timestamp, succes
  * @param  {function} error - callback fired when event successfully sent.
  */
 Tracker.prototype.trackFinance = function(financeData, vehicle, timestamp, success, error) {
+    if(!financeData) {
+        throw new Error('financeData object must be specified');
+    }
     return this._trackVisitorAction('Finance', {
         finance: financeData,
         vehicles: [vehicle]

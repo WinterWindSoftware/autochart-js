@@ -1,6 +1,5 @@
 var expect = chai.expect;
-//var assert = chai.assert;
-//
+
 describe('AutoChart Tracking API', function() {
     var TEST_DATA = {
         vehicle : {
@@ -34,39 +33,40 @@ describe('AutoChart Tracking API', function() {
     var API_KEY = '533555fcabb2377f5aea338e';
 
     describe('constructor', function () {
+        var _tracker;
         beforeEach(function() {
-            var self = this;
-            self.tracker = new AutoChartTracker();
+            _tracker = new AutoChartTracker();
         });
         describe('validates accountKey', function() {
             it('should error if accountKey is absent', function() {
                 expect(function() {
-                    this.tracker.init();
+                    _tracker.init();
                 }).to.throw(Error);
             });
             it('should error if accountKey is invalid type', function() {
                 expect(function() {
-                    this.tracker.init(new Date()); 
+                    _tracker.init(new Date()); 
                 }).to.throw(Error);
             });
             it('should error if accountKey string isn\'t correct length', function() {
                 expect(function() {
-                    this.tracker.init('iamnotexactly24chars'); 
+                    _tracker.init('iamnotexactly24chars'); 
                 }).to.throw(Error);
             });
         });
     });
 
     describe('Tracking API methods', function() {
+        var _tracker;
+
         beforeEach(function() {
-            var self = this;
-            self.tracker = new AutoChartTracker();
-            self.tracker.init(API_KEY);
+            _tracker = new AutoChartTracker();
+            _tracker.init(API_KEY);
         });
 
         describe('#page', function() {
             it('should send PageView VisitorAction', function(done) {
-                this.tracker.page(successCallback(done));
+                _tracker.page(successCallback(done));
             });
         });
 
@@ -98,12 +98,12 @@ describe('AutoChart Tracking API', function() {
             describe('#trackLead', function() {
                 it('should send Lead', function(done) {
                     
-                    this.tracker.trackLead(lead, null, successCallback(done));
+                    _tracker.trackLead(lead, null, successCallback(done));
                 });
 
                  it('should throw error if no lead is provided', function() {
                      expect(function() {
-                        this.tracker.trackLead(null, null);
+                        _tracker.trackLead(null, null);
                     }).to.throw(Error);
                 });
             });
@@ -122,7 +122,7 @@ describe('AutoChart Tracking API', function() {
                 });
                 it('should send Lead when form submitted', function(done) {
                     //Add form to document
-                    this.tracker.trackLeadForm(form, function() {
+                    _tracker.trackLeadForm(form, function() {
                         lead.contact.name = 'Form Guy';
                         return lead;
                     }, null, successCallback(done));
@@ -139,51 +139,56 @@ describe('AutoChart Tracking API', function() {
                     make: 'Honda',
                     model: 'Civic'
                 };
-                this.tracker.trackSearch(criteria, null, successCallback(done));
+                _tracker.trackSearch(criteria, null, successCallback(done));
             });    
         });
 
         describe('#trackVisitIntent', function() {
             it('should send event when map viewed', function(done) {
-                this.tracker.trackVisitIntent('map', null, successCallback(done));
+                _tracker.trackVisitIntent('map', null, successCallback(done));
             });
             it('should send event when opening hours viewed', function(done) {
-                this.tracker.trackVisitIntent('hours', null, successCallback(done));
+                _tracker.trackVisitIntent('hours', null, successCallback(done));
             });
             it('should send event when directions viewed', function(done) {
-                this.tracker.trackVisitIntent('directions', null, successCallback(done));
+                _tracker.trackVisitIntent('directions', null, successCallback(done));
             });
         });
 
         describe('#tag', function() {
             it('should send tags when single string is supplied', function(done) {
-                this.tracker.tag('Summer Special', successCallback(done));
+                _tracker.tag('Summer Special', successCallback(done));
             });
             it('should send tags when array of strings is supplied', function(done) {
-                this.tracker.tag(['Summer Special', 'Finance'], successCallback(done));
+                _tracker.tag(['Summer Special', 'Finance'], successCallback(done));
             });
             it('should strip out non-alphanumeric chars from tags', function(done) {
-                this.tracker.tag(['Joe\'s Autos Offer', 'Questionable Offer?', 'Comma, separated, offer'], successCallback(done));
+                _tracker.tag(['Joe\'s Autos Offer', 'Questionable Offer?', 'Comma, separated, offer'], successCallback(done));
             });
             it('should error if tags is blank', function() {
                 expect(function() {
-                    this.tracker.tag('', successCallback());
+                    _tracker.tag('', successCallback());
                 }).to.throw(Error);
             });
             it('should error if tags is absent', function() {
                 expect(function() {
-                    this.tracker.tag(null, successCallback());
+                    _tracker.tag(null, successCallback());
                 }).to.throw(Error);
             });
         });
 
-        describe.only('#trackFinance', function() {
+        describe('#trackFinance', function() {
             var financeData = TEST_DATA.finance;
             it('should send finance event', function(done) {
-                this.tracker.trackFinance(financeData, null, null, successCallback(done));
+                _tracker.trackFinance(financeData, null, null, successCallback(done));
             });
             it('should allow vehicle data to be included ', function(done) {
-                this.tracker.trackFinance(financeData, TEST_DATA.vehicle, null, successCallback(done));
+                _tracker.trackFinance(financeData, TEST_DATA.vehicle, null, successCallback(done));
+            });
+            it('should error if financeData is absent', function() {
+                expect(function() {
+                    _tracker.trackFinance(null);
+                }).to.throw(Error);
             });
         });
     });    
