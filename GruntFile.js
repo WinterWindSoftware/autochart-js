@@ -80,24 +80,34 @@ module.exports = function(grunt) {
             options: {
                 containerName: 'tracker',
                 containerDelete: false,
-                metadata: {
-                    cacheControl: 'public, max-age=5259000'
-                }, // max-age 2 months for all entries
                 gzip: true,
                 //copySimulation: true // set true: dry-run for what copy would look like in output
             },
-            scripts: {
+            latest: {
+                files: [{
+                    expand: true,
+                    cwd: 'dist',
+                    src: '*.js',
+                    dest: 'vlatest/'
+                }],
+                options: {
+                    metadata: {
+                        cacheControl: 'public, max-age=600'
+                    } // only 10 mins for latest
+                }
+            },
+            versionSpecific: {
                 files: [{
                     expand: true,
                     cwd: 'dist',
                     src: '*.js',
                     dest: '<%= pkg.version %>/'
-                }, {
-                    expand: true,
-                    cwd: 'dist',
-                    src: '*.js',
-                    dest: 'latest/'
-                }]
+                }],
+                options: {
+                    metadata: {
+                        cacheControl: 'public, max-age=5259000'
+                    } // max-age 2 months for versions
+                }
             }
         },
 
