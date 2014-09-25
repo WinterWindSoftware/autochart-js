@@ -228,6 +228,22 @@ Tracker.prototype.trackLeadForm = function(form, leadFunction, timestamp, succes
     }
 };
 
+/**
+ * Sends a 'Finance' VisitorAction event, with finance data.
+ * @param  {Finance} financeData - financial data to save. Required.
+ * @param  {[type]} vehicle     - vehicle to which finance action was related
+ * @param  {Date} timestamp - time the event was sent. If not specified, defaults to Date.now().
+ * @param  {function} success - callback fired when event successfully sent.
+ * @param  {function} error - callback fired when event successfully sent.
+ */
+Tracker.prototype.trackFinance = function(financeData, vehicle, timestamp, success, error) {
+    return this._trackVisitorAction('Finance', {
+        finance: financeData,
+        vehicles: [vehicle]
+    }, timestamp, success, error);
+};
+
+
 // =============================================================================================
 // PRIVATES
 // =============================================================================================
