@@ -84,8 +84,8 @@ function BrowserContext(window) {
     self.session.visitorId = permanentCookieVal.id;
     self.session.sessionId = sessionCookieVal.id;
     self.session.startTime = sessionCookieVal.startTime;
-    self.session.referrer = window.document.referrer;
-    self.session.userAgent = window.navigator.userAgent;
+    self.session.referrerRaw = window.document.referrer;
+    self.session.userAgentRaw = window.navigator.userAgent;
     self.page.url = window.document.URL;
     self.page.title = window.document.title;
 }

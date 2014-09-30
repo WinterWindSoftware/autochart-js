@@ -49,25 +49,55 @@ Tracker.prototype.init = function(accountKey, options, context) {
     //Setup global properties to be sent with all events on this page
     this._globalProperties = {
         session: context.session,
-        url: Utils.getUrlObject(context.page.url),
+        urlRaw: context.page.url,
         pageTitle: context.page.title,
+        dayOfWeek: new Date().getDay(),
         keen: {
             timestamp: context.page.timestamp || undefined
         }
     };
-    if (context.session.ipAddress) {
-        this._globalProperties.keen.addons = [{
+    this._globalProperties.session.customerAccountId = accountKey;
+    this._globalProperties.session.userAgentRaw = context.session.userAgentRaw || '${keen.user_agent}';
+    this._globalProperties.session.ipAddress = context.session.ipAddress  || '${keen.ip}';
+
+    this._globalProperties.keen.addons = [];
+    if(this._globalProperties.urlRaw) {
+        this._globalProperties.keen.addons.push({
+            name: 'keen:url_parser',
+            input: {
+                url: 'urlRaw'
+            },
+            output: 'url'
+        });
+    }
+    if(this._globalProperties.session.ipAddress) {
+        this._globalProperties.keen.addons.push({
             name: 'keen:ip_to_geo',
             input: {
                 ip: 'session.ipAddress'
             },
             output: 'session.ipLocation'
-        }];
+        });
     }
-    this._globalProperties.session.customerAccountId = accountKey;
-    //Overwrite user agent and referrer in session with parsed versions
-    this._globalProperties.session.referrer = Utils.getUrlObject(context.session.referrer);
-    this._globalProperties.session.userAgent = Utils.getUserAgentObject(context.session.userAgent);
+    if(this._globalProperties.session.userAgentRaw) {
+        this._globalProperties.keen.addons.push({
+            name: 'keen:ua_parser',
+            input: {
+                'ua_string': 'session.userAgentRaw'
+            },
+            output: 'session.userAgent'
+        });
+    }
+    if(this._globalProperties.session.referrerRaw) {
+        this._globalProperties.keen.addons.push({
+            name: 'keen:referrer_parser',
+            input: {
+                'referrer_url': 'session.referrerRaw',
+                'page_url': 'urlRaw'
+            },
+            output: 'session.referrer'
+        });
+    }
 
     //Send pageview event on load
     this.page();
@@ -237,7 +267,7 @@ Tracker.prototype.trackLeadForm = function(form, leadFunction, timestamp, succes
  * @param  {function} error - callback fired when event successfully sent.
  */
 Tracker.prototype.trackFinance = function(financeData, vehicle, timestamp, success, error) {
-    if(!financeData) {
+    if (!financeData) {
         throw new Error('financeData object must be specified');
     }
     return this._trackVisitorAction('Finance', {
