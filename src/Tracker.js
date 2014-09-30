@@ -51,7 +51,7 @@ Tracker.prototype.init = function(accountKey, options, context) {
         session: context.session,
         urlRaw: context.page.url,
         pageTitle: context.page.title,
-        dayOfWeek: new Date().getDay(),
+        dayOfWeek: (context.page.timestamp && context.page.timestamp.getDay) ? context.page.timestamp.getDay() : new Date().getDay(),
         keen: {
             timestamp: context.page.timestamp || undefined
         }
