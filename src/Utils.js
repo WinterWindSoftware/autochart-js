@@ -1,6 +1,3 @@
-var URI = require('uri-js');
-var UAParser = require('../bower_components/ua-parser-js');
-
 (function(Utils) {
     Utils.log = function(msg) {
         if (console) {
@@ -40,33 +37,5 @@ var UAParser = require('../bower_components/ua-parser-js');
             }
         }
         return target;
-    };
-
-    Utils.getUrlObject = function(fullUrl) {
-        if (!fullUrl || typeof fullUrl !== 'string') {
-            return fullUrl;
-        }
-        var parsedUrl = URI.parse(fullUrl);
-        return {
-            scheme: parsedUrl.scheme,
-            domain: parsedUrl.host,
-            port: parsedUrl.port,
-            path: parsedUrl.path,
-            query: parsedUrl.query,
-            fragment: parsedUrl.fragment
-        };
-    };
-
-    Utils.getUserAgentObject = function(userAgent) {
-        if (!userAgent || typeof userAgent !== 'string') {
-            return userAgent;
-        }
-        var parser = new UAParser();
-        parser.setUA(userAgent);
-        return {
-            browser: parser.getBrowser(),
-            engine: parser.getEngine(),
-            os: parser.getOS()
-        };
     };
 })(module.exports);

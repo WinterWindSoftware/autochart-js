@@ -276,6 +276,16 @@ Tracker.prototype.trackFinance = function(financeData, vehicle, timestamp, succe
     }, timestamp, success, error);
 };
 
+/**
+ * Calls specified function whenever the library has asynchronously loaded.
+ * @param  {Function} callback function to call
+ */
+Tracker.prototype.ready = function(callback) {
+    if(callback) {
+        
+    }
+};
+
 
 // =============================================================================================
 // PRIVATES
