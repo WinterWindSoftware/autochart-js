@@ -2,22 +2,22 @@ var expect = chai.expect;
 
 describe('AutoChart Tracking API', function() {
     var TEST_DATA = {
-        vehicle : {
-            'registrationYear' : 2002,
-            'trim' : '4dr Sdn XE Manual',
-            'listingId' : 'P6631452',
-            'photoUrl' : 'http://images.exampledealersite.com/5/0/7/9184956705.jpg',
-            'color' : 'Green',
-            'make' : 'Nissan',
-            'title' : ' Used 2002 Nissan Sentra 4dr Sdn XE Manual ',
-            'vin' : '9N1CB51D12L631452',
-            'odometer' : 186138,
-            'transmission' : '',
-            'bodyStyle' : '4D Sedan',
-            'url' : 'http://www.exampledealersite.com/VehicleDetails/used-2002-Nissan-Sentra-4dr_Sdn_XE_Manual-Chesapeake-VA/2324337633',
-            'model' : 'Sentra',
-            'price' : 2500,
-            'condition' : 'Used'
+        vehicle: {
+            'registrationYear': 2002,
+            'trim': '4dr Sdn XE Manual',
+            'listingId': 'P6631452',
+            'photoUrl': 'http://images.exampledealersite.com/5/0/7/9184956705.jpg',
+            'color': 'Green',
+            'make': 'Nissan',
+            'title': ' Used 2002 Nissan Sentra 4dr Sdn XE Manual ',
+            'vin': '9N1CB51D12L631452',
+            'odometer': 186138,
+            'transmission': '',
+            'bodyStyle': '4D Sedan',
+            'url': 'http://www.exampledealersite.com/VehicleDetails/used-2002-Nissan-Sentra-4dr_Sdn_XE_Manual-Chesapeake-VA/2324337633',
+            'model': 'Sentra',
+            'price': 2500,
+            'condition': 'Used'
         },
         finance: {
             monthlyPaymentMin: 100,
@@ -32,7 +32,7 @@ describe('AutoChart Tracking API', function() {
     this.timeout(5000);
     var API_KEY = '533555fcabb2377f5aea338e';
 
-    describe('constructor', function () {
+    describe('constructor', function() {
         var _tracker;
         beforeEach(function() {
             _tracker = new AutoChartTracker();
@@ -41,17 +41,20 @@ describe('AutoChart Tracking API', function() {
             it('should error if accountKey is absent', function() {
                 expect(function() {
                     _tracker.init();
-                }).to.throw(Error);
+                }).to.
+                throw (Error);
             });
             it('should error if accountKey is invalid type', function() {
                 expect(function() {
-                    _tracker.init(new Date()); 
-                }).to.throw(Error);
+                    _tracker.init(new Date());
+                }).to.
+                throw (Error);
             });
             it('should error if accountKey string isn\'t correct length', function() {
                 expect(function() {
-                    _tracker.init('iamnotexactly24chars'); 
-                }).to.throw(Error);
+                    _tracker.init('iamnotexactly24chars');
+                }).to.
+                throw (Error);
             });
         });
     });
@@ -72,53 +75,54 @@ describe('AutoChart Tracking API', function() {
 
         describe('Lead Tracking', function() {
             var lead = {
-                    'contact': {
-                        'name': 'Mocha Tester',
-                        'company': 'WWS',
-                        'longitude': 1,
-                        'phone': '(886) 592-3037',
-                        'latitude': -1,
-                        'email': 'tester@autochart.io'
-                    },
-                    'vehicle': {
-                        'province': 'Ulster',
-                        'city': 'Belfast',
-                        'trim': '',
-                        'price': 1750,
-                        'odometer': 204275.7,
-                        'condition': 'used',
-                        'year': 2004,
-                        'model': 'Sonata',
-                        'make': 'Hyundai'
-                    },
-                    'message': 'Mocha test',
-                    'channel': 'form',
-                    'subject': 'Mocha test'
-                };
+                'contact': {
+                    'name': 'Mocha Tester',
+                    'company': 'WWS',
+                    'longitude': 1,
+                    'phone': '(886) 592-3037',
+                    'latitude': -1,
+                    'email': 'tester@autochart.io'
+                },
+                'vehicle': {
+                    'province': 'Ulster',
+                    'city': 'Belfast',
+                    'trim': '',
+                    'price': 1750,
+                    'odometer': 204275.7,
+                    'condition': 'used',
+                    'year': 2004,
+                    'model': 'Sonata',
+                    'make': 'Hyundai'
+                },
+                'message': 'Mocha test',
+                'channel': 'form',
+                'subject': 'Mocha test'
+            };
             describe('#trackLead', function() {
                 it('should send Lead', function(done) {
-                    
+
                     _tracker.trackLead(lead, null, successCallback(done));
                 });
 
-                 it('should throw error if no lead is provided', function() {
-                     expect(function() {
+                it('should throw error if no lead is provided', function() {
+                    expect(function() {
                         _tracker.trackLead(null, null);
-                    }).to.throw(Error);
+                    }).to.
+                    throw (Error);
                 });
             });
             describe('#trackLeadForm', function() {
                 var form, submit;
                 var formId = 'vdpLeadForm';
-                beforeEach(function () {
-                  form = document.createElement('form');
-                  form.id = formId;
-                  form.action = '/test/server/mock.html';
-                  form.target = '_blank';
-                  submit = document.createElement('input');
-                  submit.type = 'submit';
-                  form.appendChild(submit);
-                  document.body.appendChild(form);
+                beforeEach(function() {
+                    form = document.createElement('form');
+                    form.id = formId;
+                    form.action = '/test/server/mock.html';
+                    form.target = '_blank';
+                    submit = document.createElement('input');
+                    submit.type = 'submit';
+                    form.appendChild(submit);
+                    document.body.appendChild(form);
                 });
                 it('should send Lead when form submitted', function(done) {
                     //Add form to document
@@ -140,7 +144,7 @@ describe('AutoChart Tracking API', function() {
                     model: 'Civic'
                 };
                 _tracker.trackSearch(criteria, null, successCallback(done));
-            });    
+            });
         });
 
         describe('#trackVisitIntent', function() {
@@ -168,12 +172,14 @@ describe('AutoChart Tracking API', function() {
             it('should error if tags is blank', function() {
                 expect(function() {
                     _tracker.tag('', successCallback());
-                }).to.throw(Error);
+                }).to.
+                throw (Error);
             });
             it('should error if tags is absent', function() {
                 expect(function() {
                     _tracker.tag(null, successCallback());
-                }).to.throw(Error);
+                }).to.
+                throw (Error);
             });
         });
 
@@ -188,15 +194,32 @@ describe('AutoChart Tracking API', function() {
             it('should error if financeData is absent', function() {
                 expect(function() {
                     _tracker.trackFinance(null);
-                }).to.throw(Error);
+                }).to.
+                throw (Error);
             });
         });
-    });    
+
+        describe('#ready', function() {
+            it('should invoke callback straight away', function() {
+                var spy = sinon.spy();
+                autochart.ready(spy);
+                expect(spy).to.have.been.calledOnce;
+            });
+        });
+    });
+
+    describe('autochart.util', function() {
+        it('should expose all Utils functions', function() {
+            expect(autochart.util).to.exist;
+            autochart.util.log('test log');
+            autochart.util.error('test error');
+        });
+    });
 
     function successCallback(done) {
         return function(response) {
-                expect(response.created).to.equal(true);
-                done();
-            };
+            expect(response.created).to.equal(true);
+            done();
+        };
     }
 });

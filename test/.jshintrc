@@ -18,5 +18,6 @@
     "unused": true,
     "node": false,
     "browser": true,
-    "predef": ["describe", "it", "xit", "before", "beforeEach", "after", "afterEach", "chai", "AutoChartTracker", "AutoChart"]
+    "expr": true,
+    "predef": ["describe", "it", "xit", "before", "beforeEach", "after", "afterEach", "chai", "sinon", "AutoChartTracker", "autochart"]
 }

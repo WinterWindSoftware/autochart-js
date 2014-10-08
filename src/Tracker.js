@@ -353,6 +353,9 @@ if (window) {
         }
     }
 
+    //Expose Utils for client-side use
+    autochart.util = Utils;
+
     //Replace stubbed autochart global with real singleton instance
     window.autochart = autochart;
     //Export tracker library for testing
