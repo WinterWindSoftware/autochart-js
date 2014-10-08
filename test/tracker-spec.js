@@ -214,6 +214,12 @@ describe('AutoChart Tracking API', function() {
             autochart.util.log('test log');
             autochart.util.error('test error');
         });
+
+        it('#getQueryParameters should print out querystring as object', function() {
+            var qs = autochart.util.getQueryParameters();
+            expect(qs).to.exist;
+            window.console.dir(qs);
+        });
     });
 
     function successCallback(done) {

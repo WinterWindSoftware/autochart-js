@@ -40,4 +40,16 @@ Utils._extend = function(target) {
     return target;
 };
 
+    //This converts querystring string to a key-value object
+Utils.getQueryParameters = function() {
+    if(!document.location.search) {
+        return {};
+    }
+    return document.location.search.replace(/(^\?)/, '').split('&').map(function(n) {
+        n = n.split('=');
+        this[n[0]] = n[1];
+        return this;
+    }.bind({}))[0];
+};
+
 module.exports = Utils;
