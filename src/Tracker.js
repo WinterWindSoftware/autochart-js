@@ -281,8 +281,8 @@ Tracker.prototype.trackFinance = function(financeData, vehicle, timestamp, succe
  * @param  {Function} callback function to call
  */
 Tracker.prototype.ready = function(callback) {
-    if(callback) {
-        
+    if(callback && Utils.isFunction(callback)) {
+        callback();
     }
 };
 
