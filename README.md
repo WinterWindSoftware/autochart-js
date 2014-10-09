@@ -24,5 +24,8 @@ window.autochart.load("<YourCustomerAccountIdHere>",window.autochart.SDK_VERSION
 Add calls to `autochart.track*` functions to send event data to AutoChart.
 TODO: add usage examples
 
+## Developer Guide
+Check out [the wiki](https://github.com/AutoChart/autochart-js/wiki) for more details on building a tracking implementation with AutoChart.
+
 ## Support
 If you need help with anything, drop us an email at [support@autochart.io](mailto:support@autochart.io) and we'll be happy to help out.
