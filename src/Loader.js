@@ -4,7 +4,7 @@
 window.autochart = window.autochart || [];
 
 window.autochart.methods = [
-    'init', 'page', 'trackVehicleView', 'trackSearch', 'trackVisitIntent', 'tag', 'trackLead', 'trackLeadForm', 'trackVehicleAction', 'trackFinance', 'ready'
+    'init', 'page', 'trackVehicleView', 'trackSearch', 'trackVisitIntent', 'tag', 'trackLead', 'trackLeadForm', 'trackVehicleAction', 'trackFinance', 'ready', 'trackLeadFormAspNet'
 ];
 // Define a factory to create queue stubs. These are placeholders for the
 // "real" methods in analytics.js so that you never have to wait for the library

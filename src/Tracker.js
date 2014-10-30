@@ -58,10 +58,10 @@ Tracker.prototype.init = function(accountKey, options, context) {
     };
     this._globalProperties.session.customerAccountId = accountKey;
     this._globalProperties.session.userAgentRaw = context.session.userAgentRaw || '${keen.user_agent}';
-    this._globalProperties.session.ipAddress = context.session.ipAddress  || '${keen.ip}';
+    this._globalProperties.session.ipAddress = context.session.ipAddress || '${keen.ip}';
 
     this._globalProperties.keen.addons = [];
-    if(this._globalProperties.urlRaw) {
+    if (this._globalProperties.urlRaw) {
         this._globalProperties.keen.addons.push({
             name: 'keen:url_parser',
             input: {
@@ -70,7 +70,7 @@ Tracker.prototype.init = function(accountKey, options, context) {
             output: 'url'
         });
     }
-    if(this._globalProperties.session.ipAddress) {
+    if (this._globalProperties.session.ipAddress) {
         this._globalProperties.keen.addons.push({
             name: 'keen:ip_to_geo',
             input: {
@@ -79,7 +79,7 @@ Tracker.prototype.init = function(accountKey, options, context) {
             output: 'session.ipLocation'
         });
     }
-    if(this._globalProperties.session.userAgentRaw) {
+    if (this._globalProperties.session.userAgentRaw) {
         this._globalProperties.keen.addons.push({
             name: 'keen:ua_parser',
             input: {
@@ -88,7 +88,7 @@ Tracker.prototype.init = function(accountKey, options, context) {
             output: 'session.userAgent'
         });
     }
-    if(this._globalProperties.session.referrerRaw) {
+    if (this._globalProperties.session.referrerRaw) {
         this._globalProperties.keen.addons.push({
             name: 'keen:referrer_parser',
             input: {
@@ -258,6 +258,22 @@ Tracker.prototype.trackLeadForm = function(form, leadFunction, timestamp, succes
     }
 };
 
+Tracker.prototype.trackLeadFormAspNet = function(options, leadFunction, timestamp, success, error) {
+    var self = this;
+    options = options || {};
+    self._ensureInit();
+    if (!leadFunction || !Utils.isFunction(leadFunction)) {
+        throw new Error('A function must be specified to return the lead data when the form is submitted.');
+    }
+    Utils.aspnet.beforePostbackAsync(options.submitButtonId, function(doPostback) {
+        var lead = leadFunction();
+        self.trackLead(lead, timestamp, success, error);
+        self._callback(function() {
+            doPostback();
+        });
+    });
+};
+
 /**
  * Sends a 'Finance' VisitorAction event, with finance data.
  * @param  {Finance} financeData - financial data to save. Required.
@@ -281,7 +297,7 @@ Tracker.prototype.trackFinance = function(financeData, vehicle, timestamp, succe
  * @param  {Function} callback function to call
  */
 Tracker.prototype.ready = function(callback) {
-    if(callback && Utils.isFunction(callback)) {
+    if (callback && Utils.isFunction(callback)) {
         callback();
     }
 };

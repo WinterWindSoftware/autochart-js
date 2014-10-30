@@ -40,9 +40,9 @@ Utils._extend = function(target) {
     return target;
 };
 
-    //This converts querystring string to a key-value object
+//This converts querystring string to a key-value object
 Utils.getQueryParameters = function() {
-    if(!document.location.search) {
+    if (!document.location.search) {
         return {};
     }
     return document.location.search.replace(/(^\?)/, '').split('&').map(function(n) {
@@ -50,6 +50,44 @@ Utils.getQueryParameters = function() {
         this[n[0]] = n[1];
         return this;
     }.bind({}))[0];
+};
+
+
+//For ASP.NET webforms only
+Utils.aspnet = {};
+//Adds a function which runs when a postback is triggered by specified controlId
+//It works by intercepting calls to WebForm_DoPostBackWithOptions
+Utils.aspnet.beforePostbackAsync = function(triggerControlId, handler) {
+    if(!handler) {
+        return;
+    }
+    /*jshint camelcase:false */
+    var origPostBackHandler;
+    if (typeof window.WebForm_DoPostBackWithOptions === 'function') {
+        //Wrap postback handler
+        origPostBackHandler = window.WebForm_DoPostBackWithOptions;
+        window.WebForm_DoPostBackWithOptions = function(postBackOptions) {
+            postBackOptions = postBackOptions || {};
+            //Run the handler                                
+            if (postBackOptions.eventTarget && (!triggerControlId || new RegExp(triggerControlId + '$').test(postBackOptions.eventTarget))) {
+                if (postBackOptions.validation && typeof(Page_ClientValidate) === 'function') {
+                    window.Page_ClientValidate();
+                }
+                if (!postBackOptions.validation || window.Page_IsValid) {
+                    Utils.prevent();
+                    handler(function() {
+                        if (window.__doPostBack) {
+                            window.__doPostBack(postBackOptions.eventTarget, postBackOptions.eventArgument);
+                        }
+                    });
+                }
+            } else {
+                //Some other button triggered postback that we don't care about
+                origPostBackHandler(postBackOptions);
+            }
+            return false;
+        };
+    }
 };
 
 module.exports = Utils;
