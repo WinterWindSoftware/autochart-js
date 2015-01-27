@@ -360,6 +360,10 @@ Tracker.prototype._getEventCallback = function(eventSuffix, overrideCallback, ev
 var autochart = new Tracker();
 module.exports = autochart;
 if (window) {
+
+    //Expose Utils for client-side use
+    autochart.util = Utils;
+    
     //Replay any queued methods
     while (window.autochart && window.autochart.length > 0) {
         var args = window.autochart.shift();
@@ -368,9 +372,6 @@ if (window) {
             autochart[method].apply(autochart, args);
         }
     }
-
-    //Expose Utils for client-side use
-    autochart.util = Utils;
 
     //Replace stubbed autochart global with real singleton instance
     window.autochart = autochart;
