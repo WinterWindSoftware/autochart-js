@@ -1,12 +1,17 @@
 var Utils = {};
 
+//Check if logging is enabled in 'autochartLogging' localStorage
+if(console && localStorage && localStorage.getItem && localStorage.getItem('autochartLogging')) {
+    Utils.logEnabled = true;
+}
+
 Utils.log = function(msg) {
-    if (console) {
+    if (Utils.logEnabled) {
         console.log('[autochart] ' + msg);
     }
 };
 Utils.error = function(msg) {
-    if (console) {
+    if (Utils.logEnabled) {
         console.error('[autochart] ' + msg);
     }
 };
@@ -59,6 +64,7 @@ Utils.aspnet = {};
 //It works by intercepting calls to WebForm_DoPostBackWithOptions
 Utils.aspnet.beforePostbackAsync = function(triggerControlId, handler) {
     if(!handler) {
+        Utils.log('No handler defined for beforePostbackAsync');
         return;
     }
     /*jshint camelcase:false */
@@ -68,25 +74,32 @@ Utils.aspnet.beforePostbackAsync = function(triggerControlId, handler) {
         origPostBackHandler = window.WebForm_DoPostBackWithOptions;
         window.WebForm_DoPostBackWithOptions = function(postBackOptions) {
             postBackOptions = postBackOptions || {};
+            Utils.log('Calling wrapped WebForm_DoPostBackWithOptions...');
             //Run the handler                                
             if (postBackOptions.eventTarget && (!triggerControlId || new RegExp(triggerControlId + '$').test(postBackOptions.eventTarget))) {
-                if (postBackOptions.validation && typeof(Page_ClientValidate) === 'function') {
+                if (postBackOptions.validation && typeof(window.Page_ClientValidate) === 'function') {
                     window.Page_ClientValidate();
                 }
                 if (!postBackOptions.validation || window.Page_IsValid) {
+                    Utils.log('Preventing standard postback...');
                     Utils.prevent();
+                    Utils.log('Invoking custom postback handler...');
                     handler(function() {
+                        Utils.log('Invoking window.__doPostBack...');
                         if (window.__doPostBack) {
                             window.__doPostBack(postBackOptions.eventTarget, postBackOptions.eventArgument);
                         }
                     });
                 }
             } else {
+                Utils.log('Postback triggered by unwatched control. Just doing standard postback...');
                 //Some other button triggered postback that we don't care about
                 origPostBackHandler(postBackOptions);
             }
             return false;
         };
+    } else {
+        Utils.log('window.WebForm_DoPostBackWithOptions not found.');
     }
 };
 
