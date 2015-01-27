@@ -361,23 +361,22 @@ var autochart = new Tracker();
 module.exports = autochart;
 if (window) {
 
-    //Expose Utils for use in queued methods
-    if(window.autochart) {
-        window.autochart.util = Utils;
-    }
+    //Copy queued methods
+    var queued = window.autochart || [];
+
+    //Replace stubbed autochart global with real singleton instance + utils instance
+    window.autochart = autochart;
+    window.autochart.util = Utils;
 
     //Replay any queued methods
-    while (window.autochart && window.autochart.length > 0) {
-        var args = window.autochart.shift();
+    while (queued.length > 0) {
+        var args = queued.shift();
         var method = args.shift();
         if (autochart[method]) {
             autochart[method].apply(autochart, args);
         }
     }
 
-    //Replace stubbed autochart global with real singleton instance + utils instance
-    window.autochart = autochart;
-    window.autochart.util = Utils;
     //Export tracker library for testing
     window.AutoChartTracker = Tracker;
 }
