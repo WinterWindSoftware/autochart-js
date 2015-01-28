@@ -29,6 +29,7 @@ Utils.callAsync = function(fn, wait) {
     if ('function' !== typeof fn) {
         return;
     }
+    Utils.log('Calling func in ' + (wait || 0) + 'ms...');
     if (!wait) {
         return setTimeout(fn, 0);
     }

@@ -37,7 +37,7 @@ Tracker.prototype.init = function(accountKey, options, context) {
     } else {
         this._options = {};
     }
-    this._timeout = 300;
+    this._timeout = 1000;
     context = context || new BrowserContext(window);
     this.dispatcher = new KeenTrack(config.keen);
 
@@ -330,7 +330,7 @@ Tracker.prototype._mergeGlobalProps = function(eventData, timestamp) {
 };
 
 Tracker.prototype._callback = function(fn) {
-    Utils.callAsync(fn, this._timeout);
+    Utils.callAsync(fn, this._timeout || 1000);
     return this;
 };
 
