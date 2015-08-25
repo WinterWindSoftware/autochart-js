@@ -41,20 +41,17 @@ describe('AutoChart Tracking API', function() {
             it('should error if accountKey is absent', function() {
                 expect(function() {
                     _tracker.init();
-                }).to.
-                throw (Error);
+                }).to.throw(Error);
             });
             it('should error if accountKey is invalid type', function() {
                 expect(function() {
                     _tracker.init(new Date());
-                }).to.
-                throw (Error);
+                }).to.throw(Error);
             });
             it('should error if accountKey string isn\'t correct length', function() {
                 expect(function() {
                     _tracker.init('iamnotexactly24chars');
-                }).to.
-                throw (Error);
+                }).to.throw(Error);
             });
         });
     });
@@ -70,6 +67,23 @@ describe('AutoChart Tracking API', function() {
         describe('#page', function() {
             it('should send PageView VisitorAction', function(done) {
                 _tracker.page(successCallback(done));
+            });
+        });
+
+        describe('AUTOCHART_DISABLED flag', function() {
+            var disabledTracker;
+            beforeEach(function () {
+                window.AUTOCHART_DISABLED = true;
+                disabledTracker = new AutoChartTracker();
+                disabledTracker.init(API_KEY);
+            });
+            it('should not send PageView VisitorAction', function(done) {
+                var response = disabledTracker.page();
+                expect(response).to.equal(false);
+                done();
+            });
+            afterEach(function () {
+                window.AUTOCHART_DISABLED = undefined;
             });
         });
 
@@ -100,15 +114,13 @@ describe('AutoChart Tracking API', function() {
             };
             describe('#trackLead', function() {
                 it('should send Lead', function(done) {
-
                     _tracker.trackLead(lead, null, successCallback(done));
                 });
 
                 it('should throw error if no lead is provided', function() {
                     expect(function() {
                         _tracker.trackLead(null, null);
-                    }).to.
-                    throw (Error);
+                    }).to.throw(Error);
                 });
             });
             describe('#trackLeadForm', function() {
@@ -173,13 +185,13 @@ describe('AutoChart Tracking API', function() {
                 expect(function() {
                     _tracker.tag('', successCallback());
                 }).to.
-                throw (Error);
+                throw(Error);
             });
             it('should error if tags is absent', function() {
                 expect(function() {
                     _tracker.tag(null, successCallback());
                 }).to.
-                throw (Error);
+                throw(Error);
             });
         });
 
@@ -195,7 +207,7 @@ describe('AutoChart Tracking API', function() {
                 expect(function() {
                     _tracker.trackFinance(null);
                 }).to.
-                throw (Error);
+                throw(Error);
             });
         });
 

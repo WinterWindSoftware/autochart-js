@@ -38,6 +38,7 @@ Tracker.prototype.init = function(accountKey, options, context) {
         this._options = {};
     }
     this._timeout = 1000;
+    this._trackingDisabled = (window.AUTOCHART_DISABLED === true);
     context = context || new BrowserContext(window);
     this.dispatcher = new KeenTrack(config.keen);
 
@@ -138,10 +139,10 @@ Tracker.prototype.trackVehicleView = function(vehicle, timestamp, success, error
  */
 Tracker.prototype.trackVehicleAction = function(vehicle, actionCategory, timestamp, success, error) {
     return this._trackVisitorAction('VehicleAction', {
-        vehicles: [vehicle],
-        actionCategory: actionCategory
-    },
-    timestamp, success, error);
+            vehicles: [vehicle],
+            actionCategory: actionCategory
+        },
+        timestamp, success, error);
 };
 
 /**
@@ -177,6 +178,9 @@ Tracker.prototype.trackVisitIntent = function(intentAction, timestamp, success, 
  * @param  {function} error - callback fired when event successfully sent.
  */
 Tracker.prototype.tag = function(tags, success, error) {
+    if (this._trackingDisabled) {
+        return false;
+    }
     this._ensureInit();
     if (!tags) {
         throw new Error('tags parameter must be specified');
@@ -201,6 +205,9 @@ Tracker.prototype.tag = function(tags, success, error) {
  * @param  {function} error - callback fired when event successfully sent.
  */
 Tracker.prototype.trackLead = function(lead, timestamp, success, error) {
+    if (this._trackingDisabled) {
+        return false;
+    }
     this._ensureInit();
     if (!lead) {
         throw new Error('Lead must be specified');
@@ -224,6 +231,9 @@ Tracker.prototype.trackLead = function(lead, timestamp, success, error) {
  * @param  {function} error - callback fired when event successfully sent.
  */
 Tracker.prototype.trackLeadForm = function(form, leadFunction, timestamp, success, error) {
+    if (this._trackingDisabled) {
+        return false;
+    }
     var self = this;
     self._ensureInit();
     if (!leadFunction || !Utils.isFunction(leadFunction)) {
@@ -259,6 +269,9 @@ Tracker.prototype.trackLeadForm = function(form, leadFunction, timestamp, succes
 };
 
 Tracker.prototype.trackLeadFormAspNet = function(options, leadFunction, timestamp, success, error) {
+    if (this._trackingDisabled) {
+        return false;
+    }
     var self = this;
     options = options || {};
     self._ensureInit();
@@ -314,11 +327,14 @@ Tracker.prototype._ensureInit = function() {
 };
 
 Tracker.prototype._trackVisitorAction = function(actionType, data, timestamp, success, error) {
+    if (this._trackingDisabled) {
+        return false;
+    }
     this._ensureInit();
     var actionData = this._mergeGlobalProps(data || {}, timestamp);
     actionData.actionType = actionType;
     return this.dispatcher.addEvent(ACTIONS_COLLECTION, actionData,
-    this._getEventCallback('VisitorAction', success, actionData), this._getErrorCallback(error, actionData));
+        this._getEventCallback('VisitorAction', success, actionData), this._getErrorCallback(error, actionData));
 };
 
 Tracker.prototype._mergeGlobalProps = function(eventData, timestamp) {
