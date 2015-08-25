@@ -22,7 +22,15 @@ window.autochart.load("<YourCustomerAccountIdHere>",window.autochart.SDK_VERSION
 
 ## Usage
 Add calls to `autochart.track*` functions to send event data to AutoChart.
-TODO: add usage examples
+
+## Disabling Tracking
+If you need to disable tracking on a website which already has AutoChart tracking hooks in place, you should insert the following line of code at the top of your tracking snippet (as the first line inside your `<script>` tag):
+
+```javascript
+window.AUTOCHART_DISABLED = true;
+```
+
+This will prevent any events from being sent to the AutoChart servers.
 
 ## Developer Guide
 Check out [the wiki](https://github.com/AutoChart/autochart-js/wiki) for more details on building a tracking implementation with AutoChart.
