@@ -217,7 +217,8 @@ Tracker.prototype.trackLead = function(lead, timestamp, success, error) {
         subject: lead.subject,
         contact: lead.contact,
         message: lead.message,
-        vehicle: lead.vehicle
+        vehicle: lead.vehicle,
+        recipient: lead.recipient
     }, timestamp);
     return this.dispatcher.addEvent('Leads', data, this._getEventCallback('Lead', success, data), this._getErrorCallback(error, data));
 };

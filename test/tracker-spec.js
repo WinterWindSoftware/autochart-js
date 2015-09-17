@@ -110,6 +110,7 @@ describe('AutoChart Tracking API', function() {
                 },
                 'message': 'Mocha test',
                 'channel': 'form',
+                'recipient': 'test recipient',
                 'subject': 'Mocha test'
             };
             describe('#trackLead', function() {
