@@ -76,10 +76,11 @@ Utils.aspnet.beforePostbackAsync = function(triggerControlId, handler) {
         window.WebForm_DoPostBackWithOptions = function(postBackOptions) {
             postBackOptions = postBackOptions || {};
             Utils.log('Calling wrapped WebForm_DoPostBackWithOptions...');
-            //Run the handler                                
+            //Run the handler
             if (postBackOptions.eventTarget && (!triggerControlId || new RegExp(triggerControlId + '$').test(postBackOptions.eventTarget))) {
+                Util.log('Intercepting postback, first checking if validation needs performed...');
                 if (postBackOptions.validation && typeof(window.Page_ClientValidate) === 'function') {
-                    window.Page_ClientValidate();
+                    window.Page_ClientValidate(postBackOptions.validationGroup);
                 }
                 if (!postBackOptions.validation || window.Page_IsValid) {
                     Utils.log('Preventing standard postback...');
