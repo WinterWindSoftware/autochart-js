@@ -1,13 +1,16 @@
 var Utils = {};
 
 //Check if logging is enabled in 'autochartLogging' localStorage
-if(console && localStorage && localStorage.getItem && localStorage.getItem('autochartLogging')) {
+if (console && localStorage && localStorage.getItem && localStorage.getItem('autochartLogging')) {
     Utils.logEnabled = true;
 }
 
-Utils.log = function(msg) {
+Utils.log = function(msg, data) {
     if (Utils.logEnabled) {
         console.log('[autochart] ' + msg);
+        if (data && console.dir) {
+            console.dir(data);
+        }
     }
 };
 Utils.error = function(msg) {
@@ -46,6 +49,13 @@ Utils._extend = function(target) {
     return target;
 };
 
+Utils.includes = function(collection, value) {
+    if (!collection || !Array.isArray(collection)) {
+        return false;
+    }
+    return collection.indexOf(value) >= 0;
+};
+
 //This converts querystring string to a key-value object
 Utils.getQueryParameters = function() {
     if (!document.location.search) {
@@ -64,7 +74,7 @@ Utils.aspnet = {};
 //Adds a function which runs when a postback is triggered by specified controlId
 //It works by intercepting calls to WebForm_DoPostBackWithOptions
 Utils.aspnet.beforePostbackAsync = function(triggerControlId, handler) {
-    if(!handler) {
+    if (!handler) {
         Utils.log('No handler defined for beforePostbackAsync');
         return;
     }

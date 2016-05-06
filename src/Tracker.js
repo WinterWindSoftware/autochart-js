@@ -1,10 +1,10 @@
-//Imports
+require('./polyfills');
 var config = require('./Config');
 var KeenTrack = require('../bower_components/keen-js/dist/keen-tracker.js');
 var BrowserContext = require('./BrowserContext');
 var Utils = require('./Utils');
+var disabledAccounts = config.disabledAccounts;
 
-//Consts
 var ACTIONS_COLLECTION = 'VisitorActions';
 var TAGS_COLLECTION = 'VisitorTags';
 
@@ -38,7 +38,10 @@ Tracker.prototype.init = function(accountKey, options, context) {
         this._options = {};
     }
     this._timeout = 1000;
-    this._trackingDisabled = (window.AUTOCHART_DISABLED === true);
+    this._trackingDisabled = (window.AUTOCHART_DISABLED === true) || Utils.includes(disabledAccounts, accountKey);
+    if (this._trackingDisabled) {
+        Utils.log('Tracking disabled. No events will be sent');
+    }
     context = context || new BrowserContext(window);
     this.dispatcher = new KeenTrack(config.keen);
 
@@ -193,6 +196,7 @@ Tracker.prototype.tag = function(tags, success, error) {
     var actionData = this._mergeGlobalProps({
         tags: tagsArray
     });
+    Utils.log('Tag tracked', tags);
     return this.dispatcher.addEvent(TAGS_COLLECTION, actionData, this._getEventCallback('Tag', success, actionData), this._getErrorCallback(error, actionData));
 };
 
@@ -220,6 +224,7 @@ Tracker.prototype.trackLead = function(lead, timestamp, success, error) {
         vehicle: lead.vehicle,
         recipient: lead.recipient
     }, timestamp);
+    Utils.log('Lead tracked', lead);
     return this.dispatcher.addEvent('Leads', data, this._getEventCallback('Lead', success, data), this._getErrorCallback(error, data));
 };
 
@@ -252,7 +257,7 @@ Tracker.prototype.trackLeadForm = function(form, leadFunction, timestamp, succes
                     form.submit();
                 });
             } else {
-                console.log('Preventing submit of form.');
+                Utils.log('Preventing submit of form.');
             }
         };
         //Wire up submit handler (preferably via jquery)
@@ -334,6 +339,7 @@ Tracker.prototype._trackVisitorAction = function(actionType, data, timestamp, su
     this._ensureInit();
     var actionData = this._mergeGlobalProps(data || {}, timestamp);
     actionData.actionType = actionType;
+    Utils.log('VisitorAction tracked: ' + actionType, data);
     return this.dispatcher.addEvent(ACTIONS_COLLECTION, actionData,
         this._getEventCallback('VisitorAction', success, actionData), this._getErrorCallback(error, actionData));
 };

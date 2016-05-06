@@ -31,6 +31,7 @@ describe('AutoChart Tracking API', function() {
 
     this.timeout(5000);
     var API_KEY = '533555fcabb2377f5aea338e';
+    var DISABLED_API_KEY = '5777e9f16d38af15178611f1';
 
     describe('constructor', function() {
         var _tracker;
@@ -67,6 +68,19 @@ describe('AutoChart Tracking API', function() {
         describe('#page', function() {
             it('should send PageView VisitorAction', function(done) {
                 _tracker.page(successCallback(done));
+            });
+        });
+
+        describe('disabled accountKey', function() {
+            var disabledTracker;
+            beforeEach(function () {
+                disabledTracker = new AutoChartTracker();
+                disabledTracker.init(DISABLED_API_KEY);
+            });
+            it('should not send PageView VisitorAction', function(done) {
+                var response = disabledTracker.page();
+                expect(response).to.equal(false);
+                done();
             });
         });
 
