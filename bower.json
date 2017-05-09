@@ -1,7 +1,7 @@
 {
 	"name": "autochart-tracker",
 	"description": "JavaScript API for tracking visitor activities on automotive websites with AutoChart.io",
-	"homepage": "https://github.com/paulswail/autochart-tracker",
+	"homepage": "https://github.com/WinterWindSoftware/autochart-tracker",
 	"authors": [
 		"Paul Swail <paul@autochart.io>"
 	],
@@ -23,7 +23,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/paulswail/autochart-tracker.git"
+		"url": "https://github.com/WinterWindSoftware/autochart-tracker.git"
 	},
 	"keywords": [
 		"automotive",
