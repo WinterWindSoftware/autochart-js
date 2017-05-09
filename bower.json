@@ -14,9 +14,6 @@
 		"test"
 	],
 	"dependencies": {
-		"keen-js": "~3.0.8",
-		"underscore": "~1.7.0",
-		"cookies-js": "~0.4.0"
 	},
 	"devDependencies": {
 		"mocha": "~1.18.2",

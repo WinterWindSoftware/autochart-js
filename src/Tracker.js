@@ -1,6 +1,6 @@
 require('./polyfills');
 var config = require('./Config');
-var KeenTrack = require('../bower_components/keen-js/dist/keen-tracker.js');
+var KeenTrack = require('keen-js/src/keen-tracker.js');
 var BrowserContext = require('./BrowserContext');
 var Utils = require('./Utils');
 var disabledAccounts = config.disabledAccounts;
