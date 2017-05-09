@@ -19,7 +19,7 @@ $RECYCLE.BIN/
 #############
 ## Misc
 #############
-*.sublime-workspace
+*.sublime-*
 node_modules
 bower_components
 dist
