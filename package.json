@@ -4,14 +4,14 @@
   "description": "JavaScript API for tracking visitor activities on automotive websites with Autochart.io",
   "author": "Paul Swail <paul@autochart.io>",
   "license": "MIT",
-  "homepage": "https://github.com/paulswail/autochart-tracker",
+  "homepage": "https://github.com/WinterWindSoftware/autochart-tracker",
   "main": "./src/Tracker.js",
   "bugs": {
-    "url": "https://github.com/paulswail/autochart-tracker/issues"
+    "url": "https://github.com/WinterWindSoftware/autochart-tracker/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/paulswail/autochart-tracker.git"
+    "url": "https://github.com/WinterWindSoftware/autochart-tracker.git"
   },
   "keywords": [
     "automotive",
