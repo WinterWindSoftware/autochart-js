@@ -346,26 +346,6 @@ Tracker.prototype._callback = function(fn) {
     return this;
 };
 
-// Tracker.prototype._getErrorCallback = function(overrideCallback, evtData) {
-//     return this._getEventCallback('Error', overrideCallback, evtData);
-// };
-
-// Tracker.prototype._getEventCallback = function(eventSuffix, overrideCallback, evtData) {
-//     var self = this;
-//     var cb = function(err, response) {
-//         if (self._options.raiseEvents && document.dispatchEvent) {
-//             var evt = new CustomEvent('AutoChart_' + eventSuffix, {
-//                 detail: evtData
-//             });
-//             document.dispatchEvent(evt);
-//         }
-//         if (overrideCallback) {
-//             overrideCallback(response);
-//         }
-//     };
-//     return cb;
-// };
-
 //======================================================================================================
 // Export autochart global singleton and replay queued async methods
 //======================================================================================================
