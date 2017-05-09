@@ -1,4 +1,4 @@
-# autochart-js
+# autochart-tracker
 
 A client-side JavaScript API for tracking automotive website events with [AutoChart.io](https://autochart.io).
 
@@ -47,7 +47,7 @@ window.AUTOCHART_DISABLED = true;
 This will prevent any events from being sent to the AutoChart servers.
 
 ## Developer Guide
-Check out [the wiki](https://github.com/AutoChart/autochart-js/wiki) for more details on building a tracking implementation with AutoChart.
+Check out [the wiki](https://github.com/WinterWindSoftware/autochart-tracker/wiki) for more details on building a tracking implementation with AutoChart.
 
 ## Support
 If you need help with anything, drop us an email at [support@autochart.io](mailto:support@autochart.io) and we'll be happy to help out.
