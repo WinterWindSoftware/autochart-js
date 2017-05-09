@@ -32,6 +32,7 @@ then import it:
 
 ```
 var acTracker = require('autochart-tracker');
+acTracker.init('<YourCustomerAccountIdHere>');
 ```
 
 ## Usage
