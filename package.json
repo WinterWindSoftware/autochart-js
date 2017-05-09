@@ -40,7 +40,6 @@
     "grunt-contrib-watch": "^1.0.0",
     "grunt-mocha": "^1.0.4",
     "grunt-replace": "^1.0.1",
-    "grunt-update-json": "^0.2.2",
     "load-grunt-tasks": "^3.5.2",
     "mocha": "^1.18.2",
     "sinon": "^1.9.0"
