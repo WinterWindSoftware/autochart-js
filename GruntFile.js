@@ -144,54 +144,14 @@ module.exports = function(grunt) {
                 jshintrc: true
             },
             files: ['*.js', 'src/*.js', 'test/*.js']
-        },
-
-        //Keep Bower.json metadata in sync with package.json
-        /*jshint camelcase:false */
-        update_json: {
-            bower: {
-                src: './package.json',
-                dest: './bower.json',
-                fields: [
-                    'name',
-                    'description',
-                    'repository',
-                    'keywords',
-                    'license']
-            }
         }
-        // jsdox: {
-        //     generate: {
-        //         options: {
-        //             contentsEnabled: true,
-        //             contentsTitle: 'Example Documentation',
-        //             contentsFile: 'readme.md',
-        //             pathFilter: /^example/,
-        //             templateDir: 'path/to/my/mustache'
-        //         },
-
-        //         src: ['path/to/code'],
-        //         dest: 'path/to/output'
-        //     },
-
-        //     // [optional additional 'generation'
-        //     // task like generate above, can be targed with jsdox: generate - other - docs],
-
-        //     publish: {
-        //         enabled: true,
-        //         path: '<%= jsdox.generate.dest %>',
-        //         message: 'Markdown Auto-Generated for version <%= pkg.version %>',
-        //         remoteName: 'upstream',
-        //         remoteBranch: 'master'
-        //     }
-        // }
     });
 
-    grunt.registerTask('build', ['jshint', 'browserify', 'uglify:dist', 'uglify:loader']);
+    grunt.registerTask('build', ['browserify', 'uglify:dist', 'uglify:loader']);
     grunt.registerTask('testlocal', ['connect:local', 'mocha:local']);
     grunt.registerTask('testcdn', ['connect:cdn', 'mocha:cdn']);
     grunt.registerTask('test', ['build', 'testlocal']);
-    grunt.registerTask('dist', ['test', 'update_json', 'replace', 'usebanner']);
+    grunt.registerTask('dist', ['test', 'replace', 'usebanner']);
     grunt.registerTask('publish', ['dist', 'azureblob', 'testcdn']);
     grunt.registerTask('connectstay', ['connect:local:keepalive']);
     grunt.registerTask('default', ['build']);
