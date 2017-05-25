@@ -187,7 +187,7 @@ module.exports = function(grunt) {
         // }
     });
 
-    grunt.registerTask('build', ['jshint', 'browserify', 'uglify:dist', 'uglify:loader']);
+    grunt.registerTask('build', ['browserify', 'uglify:dist', 'uglify:loader']);
     grunt.registerTask('testlocal', ['connect:local', 'mocha:local']);
     grunt.registerTask('testcdn', ['connect:cdn', 'mocha:cdn']);
     grunt.registerTask('test', ['build', 'testlocal']);
