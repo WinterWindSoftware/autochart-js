@@ -1,6 +1,6 @@
 {
   "name": "autochart-tracker",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "description": "JavaScript API for tracking visitor activities on automotive websites with Autochart.io",
   "author": "Paul Swail <paul@autochart.io>",
   "license": "MIT",
@@ -29,7 +29,7 @@
     "browserify": "^14.3.0",
     "chai": "^1.9.1",
     "grunt": "^1.0.1",
-    "grunt-azureblob": "^0.1.2",
+    "grunt-azure-cdn-deploy": "^1.0.1",
     "grunt-banner": "^0.6.0",
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-concat": "^1.0.1",

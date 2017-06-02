@@ -75,39 +75,44 @@ module.exports = function(grunt) {
                 tasks: ['browserify', 'uglify']
             }
         },
-
-        azureblob: {
-            options: {
-                containerName: 'tracker',
-                containerDelete: false,
-                gzip: true,
-                //copySimulation: true // set true: dry-run for what copy would look like in output
-            },
+        'azure-cdn-deploy': {
             latest: {
-                files: [{
-                    expand: true,
-                    cwd: 'dist',
-                    src: '*.js',
-                    dest: 'vlatest/'
-                }],
                 options: {
-                    metadata: {
-                        cacheControl: 'public, max-age=600'
-                    } // only 10 mins for latest
-                }
+                  containerName: 'tracker', // container name in blob
+                  serviceOptions: [], // custom arguments to azure.createBlobService
+                  folder: 'vLatest', // path within container
+                  zip: true, // gzip files if they become smaller after zipping, content-encoding header will change if file is zipped
+                  deleteExistingBlobs: false, // true means recursively deleting anything under folder
+                  concurrentUploadThreads: 10, // number of concurrent uploads, choose best for your network condition
+                  metadata: {
+                    cacheControl: 'public, max-age=3600', // cache in browser
+                    cacheControlHeader: 'public, max-age=3600' // cache in azure CDN
+                  },
+                  testRun: false // test run - means no blobs will be actually deleted or uploaded, see log messages for details
+                },
+                src: [
+                  '*.js'
+                ],
+                cwd: './dist'
             },
             versionSpecific: {
-                files: [{
-                    expand: true,
-                    cwd: 'dist',
-                    src: '*.js',
-                    dest: '<%= pkg.version %>/'
-                }],
                 options: {
-                    metadata: {
-                        cacheControl: 'public, max-age=5259000'
-                    } // max-age 2 months for versions
-                }
+                  containerName: 'tracker', // container name in blob
+                  serviceOptions: [], // custom arguments to azure.createBlobService
+                  folder: '<%= pkg.version %>', // path within container
+                  zip: true, // gzip files if they become smaller after zipping, content-encoding header will change if file is zipped
+                  deleteExistingBlobs: false, // true means recursively deleting anything under folder
+                  concurrentUploadThreads: 10, // number of concurrent uploads, choose best for your network condition
+                  metadata: {
+                    cacheControl: 'public, max-age=86400', // cache in browser for 1 day
+                    cacheControlHeader: 'public, max-age=86400' // cache in azure CDN for 1 day
+                  },
+                  testRun: false // test run - means no blobs will be actually deleted or uploaded, see log messages for details
+                },
+                src: [
+                  '*.js'
+                ],
+                cwd: './dist'
             }
         },
 
@@ -151,8 +156,8 @@ module.exports = function(grunt) {
     grunt.registerTask('testlocal', ['connect:local', 'mocha:local']);
     grunt.registerTask('testcdn', ['connect:cdn', 'mocha:cdn']);
     grunt.registerTask('test', ['build', 'testlocal']);
-    grunt.registerTask('dist', ['test', 'replace', 'usebanner']);
-    grunt.registerTask('publish', ['dist', 'azureblob', 'testcdn']);
+    grunt.registerTask('dist', ['replace', 'usebanner']);
+    grunt.registerTask('publish', ['dist', 'azure-cdn-deploy', 'testcdn']);
     grunt.registerTask('connectstay', ['connect:local:keepalive']);
     grunt.registerTask('default', ['build']);
 };

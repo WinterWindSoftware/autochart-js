@@ -81,9 +81,23 @@ Utils.aspnet.beforePostbackAsync = function(triggerControlId, handler) {
     /*jshint camelcase:false */
     var origPostBackHandler;
     if (typeof window.WebForm_DoPostBackWithOptions === 'function') {
-        //Wrap postback handler
+        // First ensure that the rawEvent is passed into the onclick handler of the trigger control
+        // so that it can be paused and resumed.
+        // We want to rewrite the following onclick attribute:
+        //      javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions("MyAppFormSubmit1$Submit", "", true, "MyApp", "", false, false))"
+        // to be:
+        //      javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions("MyAppFormSubmit1$Submit", "", true, "MyApp", "", false, false), event)"
+        // COGFormSubmit1\\$Submit
+        // COGFormSubmit1_Submit
+        var triggerButton = triggerControlId ? document.getElementById(triggerControlId.replace(/\\\$/,'_')) : null;
+        if (triggerButton && triggerButton.getAttribute('onclick')) {
+            Utils.log('Appending to onclick attribute for ' + triggerControlId);
+            triggerButton.setAttribute('onclick', triggerButton.getAttribute('onclick').replace(/\)$/,',event)'));
+        }
+
+        // Now Wrap postback handler
         origPostBackHandler = window.WebForm_DoPostBackWithOptions;
-        window.WebForm_DoPostBackWithOptions = function(postBackOptions) {
+        window.WebForm_DoPostBackWithOptions = function(postBackOptions, rawEvent) {
             postBackOptions = postBackOptions || {};
             Utils.log('Calling wrapped WebForm_DoPostBackWithOptions...');
             //Run the handler
@@ -94,7 +108,7 @@ Utils.aspnet.beforePostbackAsync = function(triggerControlId, handler) {
                 }
                 if (!postBackOptions.validation || window.Page_IsValid) {
                     Utils.log('Preventing standard postback...');
-                    Utils.prevent();
+                    Utils.prevent(rawEvent);
                     Utils.log('Invoking custom postback handler...');
                     handler(function() {
                         Utils.log('Invoking window.__doPostBack...');
