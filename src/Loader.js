@@ -26,12 +26,12 @@ for (var i = 0; i < window.autochart.methods.length; i++) {
 }
 
 // Define a method that will asynchronously load autochart.track.js
-window.autochart.load = function (apiKey, sdkVersion) {
+window.autochart.load = function (apiKey) {
     // Create an async script element for analytics.js based on your API key.
     var script = document.createElement('script');
     script.type = 'text/javascript';
     script.async = true;
-    script.src = '@@AUTOCHART_CDN_URL/' + sdkVersion + '/autochart.track.min.js';
+    script.src = '@@AUTOCHART_CDN_URL/vLatest/autochart.track.min.js';
 
     // Find the first script element on the page and insert our script next to it.
     var firstScript = document.getElementsByTagName('script')[0];
@@ -39,10 +39,7 @@ window.autochart.load = function (apiKey, sdkVersion) {
     window.autochart.init(apiKey);
 };
 
-// Add a version so we can keep track of what's out there in the wild.
-window.autochart.SDK_VERSION = '@@AUTOCHART_SDK_VERSION';
-
 /*!
   Replace <YourCustomerAccountIdHere> below with your customer API tracking key
 */
-window.autochart.load('<YourCustomerAccountIdHere>', window.autochart.SDK_VERSION);
+window.autochart.load('<YourCustomerAccountIdHere>');

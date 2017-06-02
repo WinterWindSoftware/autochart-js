@@ -157,7 +157,8 @@ module.exports = function(grunt) {
     grunt.registerTask('testcdn', ['connect:cdn', 'mocha:cdn']);
     grunt.registerTask('test', ['build', 'testlocal']);
     grunt.registerTask('dist', ['replace', 'usebanner']);
-    grunt.registerTask('publish', ['dist', 'azure-cdn-deploy', 'testcdn']);
+    grunt.registerTask('publish', ['azure-cdn-deploy', 'testcdn']);
+    grunt.registerTask('publish:version', ['azure-cdn-deploy:versionSpecific', 'testcdn']);
     grunt.registerTask('connectstay', ['connect:local:keepalive']);
     grunt.registerTask('default', ['build']);
 };
