@@ -104,8 +104,8 @@ module.exports = function(grunt) {
                   deleteExistingBlobs: false, // true means recursively deleting anything under folder
                   concurrentUploadThreads: 10, // number of concurrent uploads, choose best for your network condition
                   metadata: {
-                    cacheControl: 'public, max-age=3600', // cache in browser
-                    cacheControlHeader: 'public, max-age=3600' // cache in azure CDN
+                    cacheControl: 'public, max-age=86400', // cache in browser for 1 day
+                    cacheControlHeader: 'public, max-age=86400' // cache in azure CDN for 1 day
                   },
                   testRun: false // test run - means no blobs will be actually deleted or uploaded, see log messages for details
                 },
