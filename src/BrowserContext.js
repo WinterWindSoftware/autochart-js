@@ -73,7 +73,7 @@ function BrowserContext(window) {
             id: generateUniqueId()
         };
         Cookies.set(PERMANENT_COOKIE, serializeCookie(permanentCookieVal), {
-            expires: 60 * 24 * 365 * 10 //10 years in minutes
+            expires: 60 * 60 * 24 * 365 * 10 //10 years in seconds
         });
     }
 
