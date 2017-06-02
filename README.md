@@ -6,7 +6,9 @@ A client-side JavaScript API for tracking automotive website events with [AutoCh
 Login to the [AutoChart portal](https://portal.autochart.io) and get the **Tracking Key** from your account's settings page.
 
 ## Installation
-### Hosted CDN (recommended)
+### Hosted CDN
+This is the recommended approach if you are building the tracking implementation yourself rather than having the Autochart dev team implement it for you.
+
 Add the following snippet immediately before the closing `</head>` tag on each page of your site. It will download the `autochart.track.min.js` file asynchronously from the AutoChart CDN (so it will be fast and won't block your page from loading in the meantime).
 Make sure to update `<YourCustomerAccountIdHere>` with your account's Tracking Key.
 
