@@ -1,4 +1,4 @@
-# autochart-js
+# autochart-tracker
 
 A client-side JavaScript API for tracking automotive website events with [AutoChart.io](https://autochart.io).
 
@@ -6,6 +6,7 @@ A client-side JavaScript API for tracking automotive website events with [AutoCh
 Login to the [AutoChart portal](https://portal.autochart.io) and get the **Tracking Key** from your account's settings page.
 
 ## Installation
+### Hosted CDN (recommended)
 Add the following snippet immediately before the closing `</head>` tag on each page of your site. It will download the `autochart.track.min.js` file asynchronously from the AutoChart CDN (so it will be fast and won't block your page from loading in the meantime).
 Make sure to update `<YourCustomerAccountIdHere>` with your account's Tracking Key.
 
@@ -18,6 +19,20 @@ window.autochart=window.autochart||[],window.autochart.methods=["init","page","t
 window.autochart.load("<YourCustomerAccountIdHere>",window.autochart.SDK_VERSION);
 </script>
 
+```
+
+### As an NPM module (advanced)
+To reference the library as part of a commonjs style package, first install it:
+
+```
+npm install autochart-tracker --save
+```
+
+then import it:
+
+```
+var acTracker = require('autochart-tracker');
+acTracker.init('<YourCustomerAccountIdHere>');
 ```
 
 ## Usage
@@ -33,7 +48,7 @@ window.AUTOCHART_DISABLED = true;
 This will prevent any events from being sent to the AutoChart servers.
 
 ## Developer Guide
-Check out [the wiki](https://github.com/AutoChart/autochart-js/wiki) for more details on building a tracking implementation with AutoChart.
+Check out [the wiki](https://github.com/WinterWindSoftware/autochart-tracker/wiki) for more details on building a tracking implementation with AutoChart.
 
 ## Support
 If you need help with anything, drop us an email at [support@autochart.io](mailto:support@autochart.io) and we'll be happy to help out.

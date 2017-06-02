@@ -250,7 +250,8 @@ describe('AutoChart Tracking API', function() {
     });
 
     function successCallback(done) {
-        return function(response) {
+        return function(err, response) {
+            expect(err).not.to.exist;
             expect(response.created).to.equal(true);
             done();
         };

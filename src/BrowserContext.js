@@ -1,4 +1,4 @@
-var Cookies = require('../bower_components/cookies-js/dist/cookies.min.js');
+var Cookies = require('cookies-js');
 var ObjectId = require('./lib/objectid');
 
 function BrowserContext(window) {
