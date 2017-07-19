@@ -1,6 +1,7 @@
 require('./polyfills');
 var config = require('./Config');
 var KeenTrack = require('keen-js/src/keen-tracker.js');
+var EventDispatcher = require('./event-dispatcher');
 var BrowserContext = require('./BrowserContext');
 var Utils = require('./Utils');
 var disabledAccounts = config.disabledAccounts;
@@ -43,7 +44,7 @@ Tracker.prototype.init = function(accountKey, options, context) {
         Utils.log('Tracking disabled. No events will be sent');
     }
     context = context || new BrowserContext(window);
-    this.dispatcher = new KeenTrack(config.keen);
+    this.dispatcher = new EventDispatcher(accountKey); // new KeenTrack(config.keen);
 
     // =============================================================================================
     // INIT
