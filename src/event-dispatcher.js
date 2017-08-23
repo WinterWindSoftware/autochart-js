@@ -13,7 +13,6 @@ function noop() {}
 EventDispatcher.prototype.addEvent = function(collectionName, data, done) {
     done = done || noop;
     var url = getUrl(this.customerAccountId, collectionName, data);
-    console.log('sending data to : ' + url);
     jsonp(url, {
         param: 'callback', // name of the query string parameter to specify the callback (defaults to callback)
         timeout: 60000, // how long after a timeout error is emitted. 0 to disable (defaults to 60000)
