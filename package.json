@@ -1,6 +1,6 @@
 {
   "name": "autochart-tracker",
-  "version": "1.0.0-0",
+  "version": "1.0.0",
   "description": "JavaScript API for tracking visitor activities on automotive websites with Autochart.io",
   "author": "Paul Swail <paul@autochart.io>",
   "license": "MIT",
