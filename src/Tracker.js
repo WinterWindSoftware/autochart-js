@@ -34,7 +34,7 @@ Tracker.prototype.init = function(accountKey, options, context) {
     }
     if (options) {
         this._options = options;
-
+        Utils.log('Initilised with options: ' + JSON.stringify(options));
     } else {
         this._options = {};
     }
@@ -238,7 +238,9 @@ Tracker.prototype.trackLeadForm = function(form, leadFunction, timestamp, done) 
         throw new Error('A function must be specified to return the lead data when the form is submitted.');
     }
     if (form) {
+        Utils.log('Wiring up submit handler');
         var handler = function(e) {
+            Utils.log('Handler fired. Preventing default submit...');
             Utils.prevent(e);
             var lead = leadFunction();
             //Track the lead
