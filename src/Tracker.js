@@ -225,10 +225,11 @@ Tracker.prototype.trackLead = function(lead, timestamp, done) {
  * Tells the Tracker to send a lead event whenever a form is submitted.
  * @param  {HTMLElement} form - <form> node
  * @param  {function} leadFunction - function which will be evaluated when the form is submitted. It must return a Lead object which will then be sent to AutoChart.
+ * @param  {function} hasValidationErrors - optionally provide function which returns true if validation errors are present. If so, lead will not be tracked.
  * @param  {Date} timestamp - time the event was sent. If not specified, defaults to Date.now().
  * @param  {function(err, response)} done - callback fired when event completes
  */
-Tracker.prototype.trackLeadForm = function(form, leadFunction, timestamp, done) {
+Tracker.prototype.trackLeadForm = function(form, leadFunction, hasValidationErrors, timestamp, done) {
     if (this._trackingDisabled) {
         return false;
     }
@@ -240,6 +241,11 @@ Tracker.prototype.trackLeadForm = function(form, leadFunction, timestamp, done) 
     if (form) {
         Utils.log('Wiring up submit handler');
         var handler = function(e) {
+            // First check for validation errors
+            if (hasValidationErrors && hasValidationErrors(form)) {
+                Utils.log('Validation errors detected. Lead not tracked');
+                return;
+            }
             Utils.log('Handler fired. Preventing default submit...');
             Utils.prevent(e);
             var lead = leadFunction();
