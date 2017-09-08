@@ -1,6 +1,6 @@
 require('./polyfills');
 var config = require('./Config');
-var KeenTrack = require('keen-js/src/keen-tracker.js');
+// var KeenTrack = require('keen-js/src/keen-tracker.js');
 var EventDispatcher = require('./event-dispatcher');
 var BrowserContext = require('./BrowserContext');
 var Utils = require('./Utils');
@@ -56,52 +56,11 @@ Tracker.prototype.init = function(accountKey, options, context) {
         urlRaw: context.page.url,
         pageTitle: context.page.title,
         dayOfWeek: (context.page.timestamp && context.page.timestamp.getDay) ? context.page.timestamp.getDay() : new Date().getDay(),
-        keen: {
-            timestamp: context.page.timestamp || undefined
-        }
+        timestamp: context.page.timestamp || undefined
     };
     this._globalProperties.session.customerAccountId = accountKey;
-    this._globalProperties.session.userAgentRaw = context.session.userAgentRaw || '${keen.user_agent}';
-    this._globalProperties.session.ipAddress = context.session.ipAddress || '${keen.ip}';
-
-    this._globalProperties.keen.addons = [];
-    if (this._globalProperties.urlRaw) {
-        this._globalProperties.keen.addons.push({
-            name: 'keen:url_parser',
-            input: {
-                url: 'urlRaw'
-            },
-            output: 'url'
-        });
-    }
-    if (this._globalProperties.session.ipAddress) {
-        this._globalProperties.keen.addons.push({
-            name: 'keen:ip_to_geo',
-            input: {
-                ip: 'session.ipAddress'
-            },
-            output: 'session.ipLocation'
-        });
-    }
-    if (this._globalProperties.session.userAgentRaw) {
-        this._globalProperties.keen.addons.push({
-            name: 'keen:ua_parser',
-            input: {
-                'ua_string': 'session.userAgentRaw'
-            },
-            output: 'session.userAgent'
-        });
-    }
-    if (this._globalProperties.session.referrerRaw) {
-        this._globalProperties.keen.addons.push({
-            name: 'keen:referrer_parser',
-            input: {
-                'referrer_url': 'session.referrerRaw',
-                'page_url': 'urlRaw'
-            },
-            output: 'session.referrer'
-        });
-    }
+    this._globalProperties.session.userAgentRaw = context.session.userAgentRaw;
+    this._globalProperties.session.ipAddress = context.session.ipAddress;
 
     //Send pageview event on load
     this.page();
@@ -345,7 +304,7 @@ Tracker.prototype._trackVisitorAction = function(actionType, data, timestamp, do
 Tracker.prototype._mergeGlobalProps = function(eventData, timestamp) {
     var merged = Utils._extend({}, this._globalProperties, eventData);
     if (timestamp) {
-        merged.keen.timestamp = eventData.timestamp;
+        merged.timestamp = eventData.timestamp;
     }
     return merged;
 };
