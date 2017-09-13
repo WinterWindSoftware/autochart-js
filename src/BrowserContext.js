@@ -1,26 +1,26 @@
-var Cookies = require('cookies-js');
-var ObjectId = require('./lib/objectid');
+const Cookies = require('cookies-js');
+const ObjectId = require('./lib/objectid');
 
 function BrowserContext(window) {
-    var self = this;
+    const self = this;
 
     self.page = {};
     self.session = {};
 
-    var SESSION_COOKIE = 'ac_session';
-    var PERMANENT_COOKIE = 'ac_visitor';
-    var SESSION_DURATION_MINS = 30;
+    const SESSION_COOKIE = 'ac_session';
+    const PERMANENT_COOKIE = 'ac_visitor';
+    const SESSION_DURATION_MINS = 30;
     Cookies.defaults = {
         path: '/'
     };
 
-    //=======================================================
+    //= ======================================================
     // HELPERS
-    //=======================================================
+    //= ======================================================
 
     function serializeCookie(obj) {
         if (obj) {
-            //TODO: need to url encode here possibly
+            // TODO: need to url encode here possibly
             return JSON.stringify(obj);
         }
     }
@@ -29,7 +29,7 @@ function BrowserContext(window) {
         if (!str) {
             return undefined;
         }
-        //TODO: need to url decode here possibly
+        // TODO: need to url decode here possibly
         return JSON.parse(str);
     }
 
@@ -37,17 +37,17 @@ function BrowserContext(window) {
         return new ObjectId().toString();
     }
 
-    //=======================================================
+    //= ======================================================
     // COOKIE SETUP
-    //=======================================================
+    //= ======================================================
 
-    //Set the amount of time a session should last.
-    var sessionExpireTime = new Date();
+    // Set the amount of time a session should last.
+    const sessionExpireTime = new Date();
     sessionExpireTime.setMinutes(sessionExpireTime.getMinutes() + SESSION_DURATION_MINS);
 
-    //Check if we have a session cookie
-    //If it is undefined, set a new one.
-    var sessionCookieVal = deserializeCookie(Cookies.get(SESSION_COOKIE));
+    // Check if we have a session cookie
+    // If it is undefined, set a new one.
+    let sessionCookieVal = deserializeCookie(Cookies.get(SESSION_COOKIE));
     if (!sessionCookieVal) {
         sessionCookieVal = {
             id: generateUniqueId(),
@@ -57,7 +57,7 @@ function BrowserContext(window) {
             expires: sessionExpireTime
         });
     }
-    //If it does exist, delete it and set a new one with new expiration time
+    // If it does exist, delete it and set a new one with new expiration time
     else {
         Cookies.expire(SESSION_COOKIE);
         Cookies.set(SESSION_COOKIE, serializeCookie(sessionCookieVal), {
@@ -65,22 +65,22 @@ function BrowserContext(window) {
         });
     }
 
-    var permanentCookieVal = deserializeCookie(Cookies.get(PERMANENT_COOKIE));
+    let permanentCookieVal = deserializeCookie(Cookies.get(PERMANENT_COOKIE));
 
-    //If it is undefined, set a new one.
+    // If it is undefined, set a new one.
     if (!permanentCookieVal) {
         permanentCookieVal = {
             id: generateUniqueId()
         };
         Cookies.set(PERMANENT_COOKIE, serializeCookie(permanentCookieVal), {
-            expires: 60 * 60 * 24 * 365 * 10 //10 years in seconds
+            expires: 60 * 60 * 24 * 365 * 10 // 10 years in seconds
         });
     }
 
-    //=======================================================
+    //= ======================================================
     // populate page and session
-    //session: { visitorId, sessionId, referrer, userAgent, startTime }, page: { url} }
-    //=======================================================
+    // session: { visitorId, sessionId, referrer, userAgent, startTime }, page: { url} }
+    //= ======================================================
     self.session.visitorId = permanentCookieVal.id;
     self.session.sessionId = sessionCookieVal.id;
     self.session.startTime = sessionCookieVal.startTime;
