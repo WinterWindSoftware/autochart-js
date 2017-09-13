@@ -1,5 +1,4 @@
 const secrets = require('./s3.secret');
-const accountConfig = require('../account-config');
 
 const prefixSuffix = process.env.DEPLOY_ENV === 'production' ? '' : '-test';
 
