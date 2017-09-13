@@ -1,9 +1,9 @@
 import _extend from 'lodash/extend';
 import _includes from 'lodash/includes';
-import config from './Config';
+import config from './config';
 import EventDispatcher from './event-dispatcher';
-import BrowserContext from './BrowserContext';
-import Utils from './Utils';
+import BrowserContext from './browser-context';
+import Utils from './utils';
 
 const disabledAccounts = config.disabledAccounts;
 const ACTIONS_COLLECTION = 'VisitorActions';

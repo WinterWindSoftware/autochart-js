@@ -1,2 +1,2 @@
 import './src/polyfills';
-import './src/Tracker';
+import './src/tracker';
