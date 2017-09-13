@@ -5,3 +5,4 @@ src/polyfills.js
 src/lib/*
 test
 GruntFile.js
+deploy
