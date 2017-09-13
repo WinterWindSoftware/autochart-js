@@ -19,10 +19,8 @@ function BrowserContext(window) {
     //= ======================================================
 
     function serializeCookie(obj) {
-        if (obj) {
-            // TODO: need to url encode here possibly
-            return JSON.stringify(obj);
-        }
+        // TODO: need to url encode here possibly
+        return obj ? JSON.stringify(obj) : null;
     }
 
     function deserializeCookie(str) {
@@ -56,9 +54,8 @@ function BrowserContext(window) {
         Cookies.set(SESSION_COOKIE, serializeCookie(sessionCookieVal), {
             expires: sessionExpireTime
         });
-    }
-    // If it does exist, delete it and set a new one with new expiration time
-    else {
+    } else {
+        // If it does exist, delete it and set a new one with new expiration time
         Cookies.expire(SESSION_COOKIE);
         Cookies.set(SESSION_COOKIE, serializeCookie(sessionCookieVal), {
             expires: sessionExpireTime
