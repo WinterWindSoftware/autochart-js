@@ -56,6 +56,7 @@
   },
   "dependencies": {
     "cookies-js": "^1.2.3",
-    "jsonp": "^0.2.1"
+    "jsonp": "^0.2.1",
+    "lodash": "^4.17.4"
   }
 }

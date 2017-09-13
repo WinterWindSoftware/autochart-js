@@ -1,8 +1,10 @@
-require('./polyfills');
-const config = require('./Config');
-const EventDispatcher = require('./event-dispatcher');
-const BrowserContext = require('./BrowserContext');
-const Utils = require('./Utils');
+import _extend from 'lodash/extend';
+import _includes from 'lodash/includes';
+import './polyfills';
+import config from './Config';
+import EventDispatcher from './event-dispatcher';
+import BrowserContext from './BrowserContext';
+import Utils from './Utils';
 
 const disabledAccounts = config.disabledAccounts;
 
@@ -40,7 +42,7 @@ Tracker.prototype.init = function init(accountKey, options, browserContext) {
     }
     this.timeout = 1000;
     this.trackingDisabled = (window.AUTOCHART_DISABLED === true)
-        || Utils.includes(disabledAccounts, accountKey);
+        || _includes(disabledAccounts, accountKey);
     if (this.trackingDisabled) {
         Utils.log('Tracking disabled. No events will be sent');
     }
@@ -309,7 +311,7 @@ Tracker.prototype.trackVisitorAction = function trackVisitorAction(actionType, d
 };
 
 Tracker.prototype.mergeGlobalProps = function mergeGlobalProps(eventData, timestamp) {
-    const merged = Utils._extend({}, this.globalProperties, eventData);
+    const merged = _extend({}, this.globalProperties, eventData);
     if (timestamp) {
         merged.timestamp = eventData.timestamp;
     }
