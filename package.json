@@ -23,7 +23,8 @@
   "scripts": {
     "lint": "./node_modules/.bin/eslint . || true",
     "build": "webpack -p",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "deploy-azure-version": "grunt publish:version"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
