@@ -24,6 +24,7 @@
     "lint": "./node_modules/.bin/eslint . || true",
     "build": "webpack -p",
     "start": "webpack-dev-server",
+    "deploy-azure-latest": "grunt publish",
     "deploy-azure-version": "grunt publish:version"
   },
   "devDependencies": {
