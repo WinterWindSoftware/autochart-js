@@ -23,8 +23,7 @@
   "scripts": {
     "lint": "./node_modules/.bin/eslint . || true",
     "build": "webpack -p",
-    "start": "webpack-dev-server",
-    "test": "webpack 'mocha!./test/tracker-spec.js' ./index.js"
+    "start": "webpack-dev-server"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

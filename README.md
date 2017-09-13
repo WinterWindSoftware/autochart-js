@@ -55,3 +55,15 @@ Check out [the wiki](https://github.com/WinterWindSoftware/autochart-tracker/wik
 
 ## Support
 If you need help with anything, drop us an email at [support@autochart.io](mailto:support@autochart.io) and we'll be happy to help out.
+
+---
+## Internal Development
+The sections below are for developers working on this library.
+
+## Testing
+To run tests for this library:
+```
+npm start
+```
+Open browser to http://localhost:8080/test.
+This will run the mocha tests in the browser.
