@@ -23,7 +23,7 @@
   "scripts": {
     "lint": "./node_modules/.bin/eslint . || true",
     "build": "webpack -p",
-    "start": "webpack-dev-server",
+    "start": "webpack -p && webpack-dev-server",
     "publish-test": "webpack -p && DEPLOY_ENV=test node deploy/s3-deploy.js",
     "publish-prod": "webpack -p && DEPLOY_ENV=production node deploy/s3-deploy.js",
     "deploy-azure-latest": "grunt publish",
@@ -36,17 +36,17 @@
     "browserify": "^14.3.0",
     "chai": "^1.9.1",
     "eslint": "^4.6.1",
-    "eslint-config-airbnb-base": "^11.1.3",
+    "eslint-config-airbnb-base": "^12.0.0",
     "eslint-plugin-import": "^2.7.0",
     "grunt": "^1.0.1",
     "grunt-azure-cdn-deploy": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "load-grunt-tasks": "^3.5.2",
-    "mocha": "^1.18.2",
+    "mocha": "^3.5.3",
     "s3": "^4.4.0",
     "sinon": "^1.9.0",
     "webpack": "^3.5.6",
-    "webpack-dev-server": "^2.7.1"
+    "webpack-dev-server": "^2.8.1"
   },
   "dependencies": {
     "cookies-js": "^1.2.3",
