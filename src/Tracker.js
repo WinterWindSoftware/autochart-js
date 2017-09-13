@@ -7,7 +7,6 @@ import BrowserContext from './BrowserContext';
 import Utils from './Utils';
 
 const disabledAccounts = config.disabledAccounts;
-
 const ACTIONS_COLLECTION = 'VisitorActions';
 const TAGS_COLLECTION = 'VisitorTags';
 
@@ -15,7 +14,6 @@ const TAGS_COLLECTION = 'VisitorTags';
  * Tracking API instance.
  * @constructor
  */
-
 function Tracker() {}
 
 // @accountKey: String
