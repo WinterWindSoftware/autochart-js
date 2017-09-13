@@ -5,7 +5,7 @@
   "author": "Paul Swail <paul@autochart.io>",
   "license": "MIT",
   "homepage": "https://github.com/WinterWindSoftware/autochart-tracker",
-  "main": "./src/Tracker.js",
+  "main": "./index.js",
   "bugs": {
     "url": "https://github.com/WinterWindSoftware/autochart-tracker/issues"
   },
@@ -21,10 +21,10 @@
     "autochart"
   ],
   "scripts": {
-    "start": "./node_modules/.bin/grunt",
     "lint": "./node_modules/.bin/eslint . || true",
-    "test": "./node_modules/.bin/grunt test",
-    "build": "./node_modules/.bin/grunt build"
+    "build": "webpack -p",
+    "start": "webpack-dev-server",
+    "test": "./node_modules/.bin/grunt test"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

@@ -1,6 +1,5 @@
 import _extend from 'lodash/extend';
 import _includes from 'lodash/includes';
-import './polyfills';
 import config from './Config';
 import EventDispatcher from './event-dispatcher';
 import BrowserContext from './BrowserContext';
