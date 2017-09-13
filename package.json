@@ -24,7 +24,7 @@
     "lint": "./node_modules/.bin/eslint . || true",
     "build": "webpack -p",
     "start": "webpack-dev-server",
-    "test": "./node_modules/.bin/grunt test"
+    "test": "webpack 'mocha!./test/tracker-spec.js' ./index.js"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

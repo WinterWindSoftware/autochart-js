@@ -3,7 +3,7 @@ import path from 'path';
 export default {
     entry: './index.js',
     output: {
-        filename: 'autochart-tracker.min.js',
+        filename: 'autochart.track.min.js',
         path: path.resolve(__dirname, 'dist')
     },
     devServer: {
