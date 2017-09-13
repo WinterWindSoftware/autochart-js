@@ -23,9 +23,9 @@ function Tracker() {}
  * Initialise the Tracker with account key and custom options.
  * @param  {string} accountKey - unique tracking key for your AutoChart account. Required.
  * @param  {object} options - Array of options to override certain tracking behaviour
- * @param  {BrowserContext} context - tracker uses this to access browser data (DOM, URL, cookies, etc.)
+ * @param  {BrowserContext} browserContext - used to access browser data (DOM, URL, cookies)
  */
-Tracker.prototype.init = function (accountKey, options, context) {
+Tracker.prototype.init = function init(accountKey, options, browserContext) {
     if (!accountKey) {
         throw new Error('accountKey must be specified');
     }
@@ -33,17 +33,18 @@ Tracker.prototype.init = function (accountKey, options, context) {
         throw new Error('Invalid account key. It must be a 24 character long string.');
     }
     if (options) {
-        this._options = options;
+        this.options = options;
         Utils.log(`Initilised with options: ${JSON.stringify(options)}`);
     } else {
-        this._options = {};
+        this.options = {};
     }
-    this._timeout = 1000;
-    this._trackingDisabled = (window.AUTOCHART_DISABLED === true) || Utils.includes(disabledAccounts, accountKey);
-    if (this._trackingDisabled) {
+    this.timeout = 1000;
+    this.trackingDisabled = (window.AUTOCHART_DISABLED === true)
+        || Utils.includes(disabledAccounts, accountKey);
+    if (this.trackingDisabled) {
         Utils.log('Tracking disabled. No events will be sent');
     }
-    context = context || new BrowserContext(window);
+    const context = browserContext || new BrowserContext(window);
     this.dispatcher = new EventDispatcher(accountKey);
 
     // =============================================================================================
@@ -51,16 +52,17 @@ Tracker.prototype.init = function (accountKey, options, context) {
     // =============================================================================================
 
     // Setup global properties to be sent with all events on this page
-    this._globalProperties = {
+    this.globalProperties = {
         session: context.session,
         urlRaw: context.page.url,
         pageTitle: context.page.title,
-        dayOfWeek: (context.page.timestamp && context.page.timestamp.getDay) ? context.page.timestamp.getDay() : new Date().getDay(),
+        dayOfWeek: (context.page.timestamp && context.page.timestamp.getDay) ?
+            context.page.timestamp.getDay() : new Date().getDay(),
         timestamp: context.page.timestamp || undefined
     };
-    this._globalProperties.session.customerAccountId = accountKey;
-    this._globalProperties.session.userAgentRaw = context.session.userAgentRaw;
-    this._globalProperties.session.ipAddress = context.session.ipAddress;
+    this.globalProperties.session.customerAccountId = accountKey;
+    this.globalProperties.session.userAgentRaw = context.session.userAgentRaw;
+    this.globalProperties.session.ipAddress = context.session.ipAddress;
 
     // Send pageview event on load
     this.page();
@@ -70,11 +72,11 @@ Tracker.prototype.init = function (accountKey, options, context) {
 // TRACKING API FUNCTIONS
 // =============================================================================================
 /**
- * Send a 'PageView' VisitorAction event. This is automatically called in init so is usually not required.
+ * Send a 'PageView' VisitorAction event. Automatically called in init so not usually required.
  * @param  {function(err, response)} done - callback fired when event completes
  */
-Tracker.prototype.page = function (done) {
-    return this._trackVisitorAction('PageView', null, null, done);
+Tracker.prototype.page = function page(done) {
+    return this.trackVisitorAction('PageView', null, null, done);
 };
 
 /**
@@ -83,8 +85,8 @@ Tracker.prototype.page = function (done) {
  * @param  {Date} timestamp - time the event was sent. If not specified, defaults to Date.now().
  * @param  {function(err, response)} done - callback fired when event completes
  */
-Tracker.prototype.trackVehicleView = function (vehicle, timestamp, done) {
-    return this._trackVisitorAction('VehicleView', {
+Tracker.prototype.trackVehicleView = function trackVehicleView(vehicle, timestamp, done) {
+    return this.trackVisitorAction('VehicleView', {
         vehicles: [vehicle]
     }, timestamp, done);
 };
@@ -96,8 +98,9 @@ Tracker.prototype.trackVehicleView = function (vehicle, timestamp, done) {
  * @param  {Date} timestamp - time the event was sent. If not specified, defaults to Date.now().
  * @param  {function(err, response)} done - callback fired when event completes
  */
-Tracker.prototype.trackVehicleAction = function (vehicle, actionCategory, timestamp, done) {
-    return this._trackVisitorAction('VehicleAction', {
+Tracker.prototype.trackVehicleAction = function trackVehicleAction(vehicle, actionCategory,
+    timestamp, done) {
+    return this.trackVisitorAction('VehicleAction', {
         vehicles: [vehicle],
         actionCategory
     },
@@ -110,8 +113,8 @@ Tracker.prototype.trackVehicleAction = function (vehicle, actionCategory, timest
  * @param  {Date} timestamp - time the event was sent. If not specified, defaults to Date.now().
  * @param  {function(err, response)} done - callback fired when event completes
  */
-Tracker.prototype.trackSearch = function (searchCriteria, timestamp, done) {
-    return this._trackVisitorAction('Search', {
+Tracker.prototype.trackSearch = function trackSearch(searchCriteria, timestamp, done) {
+    return this.trackVisitorAction('Search', {
         searchCriteria
     }, timestamp, done);
 };
@@ -122,8 +125,8 @@ Tracker.prototype.trackSearch = function (searchCriteria, timestamp, done) {
  * @param  {Date} timestamp - time the event was sent. If not specified, defaults to Date.now().
  * @param  {function(err, response)} done - callback fired when event completes
  */
-Tracker.prototype.trackVisitIntent = function (intentAction, timestamp, done) {
-    return this._trackVisitorAction('VisitIntent', {
+Tracker.prototype.trackVisitIntent = function trackVisitIntent(intentAction, timestamp, done) {
+    return this.trackVisitorAction('VisitIntent', {
         intentAction
     }, timestamp, done);
 };
@@ -133,20 +136,20 @@ Tracker.prototype.trackVisitIntent = function (intentAction, timestamp, done) {
  * @param  {[string]} tags - array of tags to associate with this visitor. Required.
  * @param  {function(err, response)} done - callback fired when event completes
  */
-Tracker.prototype.tag = function (tags, done) {
-    if (this._trackingDisabled) {
+Tracker.prototype.tag = function tag(tags, done) {
+    if (this.trackingDisabled) {
         return false;
     }
-    this._ensureInit();
+    this.ensureInit();
     if (!tags) {
         throw new Error('tags parameter must be specified');
     }
     const tagsArray = (tags instanceof Array) ? tags : [tags.toString()];
     // Sanitize tags (strip out non alphanumeric plus space dash underscore)
-    for (let i = 0; i < tagsArray.length; i++) {
+    for (let i = 0; i < tagsArray.length; i += 1) {
         tagsArray[i] = tagsArray[i].toString().replace(/[^\w\s-]/gi, '');
     }
-    const actionData = this._mergeGlobalProps({
+    const actionData = this.mergeGlobalProps({
         tags: tagsArray
     });
     Utils.log('Tag tracked', tags);
@@ -160,15 +163,15 @@ Tracker.prototype.tag = function (tags, done) {
  * @param  {Date} timestamp - time the event was sent. If not specified, defaults to Date.now().
  * @param  {function(err, response)} done - callback fired when event completes
  */
-Tracker.prototype.trackLead = function (lead, timestamp, done) {
-    if (this._trackingDisabled) {
+Tracker.prototype.trackLead = function trackLead(lead, timestamp, done) {
+    if (this.trackingDisabled) {
         return false;
     }
-    this._ensureInit();
+    this.ensureInit();
     if (!lead) {
         throw new Error('Lead must be specified');
     }
-    const data = this._mergeGlobalProps({
+    const data = this.mergeGlobalProps({
         channel: lead.channel,
         subject: lead.subject,
         contact: lead.contact,
@@ -183,23 +186,26 @@ Tracker.prototype.trackLead = function (lead, timestamp, done) {
 /**
  * Tells the Tracker to send a lead event whenever a form is submitted.
  * @param  {HTMLElement} form - <form> node
- * @param  {function} leadFunction - function which will be evaluated when the form is submitted. It must return a Lead object which will then be sent to AutoChart.
- * @param  {function} hasValidationErrors - optionally provide function which returns true if validation errors are present. If so, lead will not be tracked.
+ * @param  {function} leadFunction - function which will be evaluated when the form is submitted.
+ *          It must return a Lead object which will then be sent to AutoChart.
+ * @param  {function} hasValidationErrors - optionally provide function which returns true if
+ *          validation errors are present. If so, lead will not be tracked.
  * @param  {Date} timestamp - time the event was sent. If not specified, defaults to Date.now().
  * @param  {function(err, response)} done - callback fired when event completes
  */
-Tracker.prototype.trackLeadForm = function (form, leadFunction, hasValidationErrors, timestamp, done) {
-    if (this._trackingDisabled) {
+Tracker.prototype.trackLeadForm = function trackLeadForm(form, leadFunction,
+    hasValidationErrors, timestamp, done) {
+    if (this.trackingDisabled) {
         return false;
     }
     const self = this;
-    self._ensureInit();
+    self.ensureInit();
     if (!leadFunction || !Utils.isFunction(leadFunction)) {
         throw new Error('A function must be specified to return the lead data when the form is submitted.');
     }
     if (form) {
         Utils.log('Wiring up submit handler');
-        const handler = function (e) {
+        const handler = function handler(e) {
             // First check for validation errors
             if (hasValidationErrors && hasValidationErrors(form)) {
                 Utils.log('Validation errors detected. Lead not tracked');
@@ -211,8 +217,8 @@ Tracker.prototype.trackLeadForm = function (form, leadFunction, hasValidationErr
             // Track the lead
             self.trackLead(lead, timestamp, done);
             // Proceed with submitting the form
-            if (!self._options.preventFormSubmits) {
-                self._callback(() => {
+            if (!self.options.preventFormSubmits) {
+                self.callback(() => {
                     form.submit();
                 });
             } else {
@@ -229,25 +235,27 @@ Tracker.prototype.trackLeadForm = function (form, leadFunction, hasValidationErr
             form.attachEvent('onsubmit', handler);
         }
     }
+    return true;
 };
 
-Tracker.prototype.trackLeadFormAspNet = function (options, leadFunction, timestamp, done) {
-    if (this._trackingDisabled) {
+Tracker.prototype.trackLeadFormAspNet = function trackLeadFormAspNet(options = {},
+    leadFunction, timestamp, done) {
+    if (this.trackingDisabled) {
         return false;
     }
     const self = this;
-    options = options || {};
-    self._ensureInit();
+    self.ensureInit();
     if (!leadFunction || !Utils.isFunction(leadFunction)) {
         throw new Error('A function must be specified to return the lead data when the form is submitted.');
     }
     Utils.aspnet.beforePostbackAsync(options.submitButtonId, (doPostback) => {
         const lead = leadFunction();
         self.trackLead(lead, timestamp, done);
-        self._callback(() => {
+        self.callback(() => {
             doPostback();
         });
     });
+    return true;
 };
 
 /**
@@ -257,11 +265,11 @@ Tracker.prototype.trackLeadFormAspNet = function (options, leadFunction, timesta
  * @param  {Date} timestamp - time the event was sent. If not specified, defaults to Date.now().
  * @param  {function(err, response)} done - callback fired when event completes
  */
-Tracker.prototype.trackFinance = function (financeData, vehicle, timestamp, done) {
+Tracker.prototype.trackFinance = function trackFinance(financeData, vehicle, timestamp, done) {
     if (!financeData) {
         throw new Error('financeData object must be specified');
     }
-    return this._trackVisitorAction('Finance', {
+    return this.trackVisitorAction('Finance', {
         finance: financeData,
         vehicles: [vehicle]
     }, timestamp, done);
@@ -271,7 +279,7 @@ Tracker.prototype.trackFinance = function (financeData, vehicle, timestamp, done
  * Calls specified function whenever the library has asynchronously loaded.
  * @param  {Function} callback function to call
  */
-Tracker.prototype.ready = function (callback) {
+Tracker.prototype.ready = function ready(callback) {
     if (callback && Utils.isFunction(callback)) {
         callback();
     }
@@ -282,39 +290,40 @@ Tracker.prototype.ready = function (callback) {
 // PRIVATES
 // =============================================================================================
 
-Tracker.prototype._ensureInit = function () {
-    if (!this._globalProperties.session.customerAccountId) {
+Tracker.prototype.ensureInit = function ensureInit() {
+    if (!this.globalProperties.session.customerAccountId) {
         throw new Error('init() must be called before calling this method.');
     }
 };
 
-Tracker.prototype._trackVisitorAction = function (actionType, data, timestamp, done) {
-    if (this._trackingDisabled) {
+Tracker.prototype.trackVisitorAction = function trackVisitorAction(actionType, data,
+    timestamp, done) {
+    if (this.trackingDisabled) {
         return false;
     }
-    this._ensureInit();
-    const actionData = this._mergeGlobalProps(data || {}, timestamp);
+    this.ensureInit();
+    const actionData = this.mergeGlobalProps(data || {}, timestamp);
     actionData.actionType = actionType;
     Utils.log(`VisitorAction tracked: ${actionType}`, data);
     return this.dispatcher.addEvent(ACTIONS_COLLECTION, actionData, done);
 };
 
-Tracker.prototype._mergeGlobalProps = function (eventData, timestamp) {
-    const merged = Utils._extend({}, this._globalProperties, eventData);
+Tracker.prototype.mergeGlobalProps = function mergeGlobalProps(eventData, timestamp) {
+    const merged = Utils._extend({}, this.globalProperties, eventData);
     if (timestamp) {
         merged.timestamp = eventData.timestamp;
     }
     return merged;
 };
 
-Tracker.prototype._callback = function (fn) {
-    Utils.callAsync(fn, this._timeout || 1000);
+Tracker.prototype.callback = function callback(fn) {
+    Utils.callAsync(fn, this.timeout || 1000);
     return this;
 };
 
-//= =====================================================================================================
+// ============================================================================================
 // Export autochart global singleton and replay queued async methods
-//= =====================================================================================================
+// ============================================================================================
 const autochart = new Tracker();
 module.exports = autochart;
 if (window) {
