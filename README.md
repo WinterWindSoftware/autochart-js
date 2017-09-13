@@ -3,19 +3,19 @@
 A client-side JavaScript API for tracking automotive website events with [AutoChart.io](https://autochart.io).
 
 ## Pre-Requisite
-Login to the [AutoChart portal](https://portal.autochart.io) and get the **Tracking Key** from your account's settings page.
+Login to the [Autochart portal](https://portal.autochart.io) and get the **Tracking Key** from your account's settings page.
 
 ## Installation
 ### Hosted CDN
 This is the recommended approach if you are building the tracking implementation yourself rather than having the Autochart dev team implement it for you.
 
-Add the following snippet immediately before the closing `</head>` tag on each page of your site. It will download the `autochart.track.min.js` file asynchronously from the AutoChart CDN (so it will be fast and won't block your page from loading in the meantime).
+Add the following snippet immediately before the closing `</head>` tag on each page of your site. It will download the `autochart.track.min.js` file asynchronously from the Autochart CDN (so it will be fast and won't block your page from loading in the meantime).
 Make sure to update `<YourCustomerAccountIdHere>` with your account's Tracking Key.
 
 ```html
 
 <script type="text/javascript">
-window.autochart=window.autochart||[],window.autochart.methods=["init","page","trackVehicleView","trackSearch","trackVisitIntent","tag","trackLead","trackLeadForm","trackVehicleAction","trackFinance","ready","trackLeadFormAspNet"],window.autochart.factory=function(a){return function(){var b=Array.prototype.slice.call(arguments);return b.unshift(a),window.autochart.push(b),window.autochart}};for(var i=0;i<window.autochart.methods.length;i++){var method=window.autochart.methods[i];window.autochart[method]=window.autochart.factory(method)}window.autochart.load=function(a){var b=document.createElement("script");b.type="text/javascript",b.async=!0,b.src="https://az578655.vo.msecnd.net/tracker/vLatest/autochart.track.min.js";var c=document.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c),window.autochart.init(a)},
+window.autochart=window.autochart||[],window.autochart.methods=["init","page","trackVehicleView","trackSearch","trackVisitIntent","tag","trackLead","trackLeadForm","trackVehicleAction","trackFinance","ready","trackLeadFormAspNet"],window.autochart.factory=function(a){return function(){var b=Array.prototype.slice.call(arguments);return b.unshift(a),window.autochart.push(b),window.autochart}};for(var i=0;i<window.autochart.methods.length;i++){var method=window.autochart.methods[i];window.autochart[method]=window.autochart.factory(method)}window.autochart.load=function(a){var b=document.createElement("script");b.type="text/javascript",b.async=!0,b.src="https://cdn.autochart.io/tracker/v1/autochart.track.min.js";var c=document.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c),window.autochart.init(a)},
 /*!
   Replace <YourCustomerAccountIdHere> below with your customer API tracking key
 */
