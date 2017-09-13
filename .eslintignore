@@ -2,4 +2,6 @@ node_modules
 dist
 src/Loader.js
 src/polyfills.js
+src/lib/*
 test
+GruntFile.js
