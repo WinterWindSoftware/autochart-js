@@ -12,7 +12,7 @@ module.exports = {
     },
     bucket: {
         name: 'cdn.autochart.io',
-        prefix: `tracker${prefixSuffix}/`,
+        prefix: `tracker${prefixSuffix}/v1/`,
         cacheSeconds: 30 // TODO: change this to 1 hour (60 * 60)
     }
 };
