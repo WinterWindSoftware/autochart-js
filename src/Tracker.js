@@ -4,6 +4,7 @@ import config from './config';
 import EventDispatcher from './event-dispatcher';
 import BrowserContext from './browser-context';
 import Utils from './utils';
+import { version } from '../package.json';
 
 const disabledAccounts = config.disabledAccounts;
 const ACTIONS_COLLECTION = 'VisitorActions';
@@ -57,7 +58,10 @@ Tracker.prototype.init = function init(accountKey, options, browserContext) {
         pageTitle: context.page.title,
         dayOfWeek: (context.page.timestamp && context.page.timestamp.getDay) ?
             context.page.timestamp.getDay() : new Date().getDay(),
-        timestamp: context.page.timestamp || undefined
+        timestamp: context.page.timestamp || undefined,
+        ac: {
+            clientTrackerLibraryVersion: version
+        }
     };
     this.globalProperties.session.customerAccountId = accountKey;
     this.globalProperties.session.userAgentRaw = context.session.userAgentRaw;
