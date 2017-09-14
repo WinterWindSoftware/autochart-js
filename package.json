@@ -28,7 +28,7 @@
     "publish-cdn-prod": "webpack -p && DEPLOY_ENV=production node deploy/s3-deploy.js",
     "deploy-azure-latest": "webpack -p && grunt publish",
     "deploy-azure-version": "webpack -p && grunt publish:version",
-    "prepublish": "webpack -p"
+    "prepublishOnly": "webpack -p"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
