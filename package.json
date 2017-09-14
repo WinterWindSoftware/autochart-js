@@ -26,8 +26,8 @@
     "start": "webpack -p && webpack-dev-server",
     "publish-test": "webpack -p && DEPLOY_ENV=test node deploy/s3-deploy.js",
     "publish-prod": "webpack -p && DEPLOY_ENV=production node deploy/s3-deploy.js",
-    "deploy-azure-latest": "grunt publish",
-    "deploy-azure-version": "grunt publish:version"
+    "deploy-azure-latest": "webpack -p && grunt publish",
+    "deploy-azure-version": "webpack -p && grunt publish:version"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
