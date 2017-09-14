@@ -19,7 +19,6 @@ function BrowserContext(window) {
     //= ======================================================
 
     function serializeCookie(obj) {
-        // TODO: need to url encode here possibly
         return obj ? JSON.stringify(obj) : null;
     }
 
@@ -27,7 +26,6 @@ function BrowserContext(window) {
         if (!str) {
             return undefined;
         }
-        // TODO: need to url decode here possibly
         return JSON.parse(str);
     }
 
