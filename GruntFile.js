@@ -1,3 +1,6 @@
+// GruntFile is only maintained to allow for patches to old versions of library to be deployed to Azure CDN
+// New build steps should not be added.
+
 module.exports = function(grunt) {
 
     require('load-grunt-tasks')(grunt);
