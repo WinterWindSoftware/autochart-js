@@ -5,7 +5,7 @@
   "author": "Paul Swail <paul@autochart.io>",
   "license": "MIT",
   "homepage": "https://github.com/WinterWindSoftware/autochart-tracker",
-  "main": "./index.js",
+  "main": "./dist/autochart.track.min.js",
   "bugs": {
     "url": "https://github.com/WinterWindSoftware/autochart-tracker/issues"
   },
@@ -24,10 +24,11 @@
     "lint": "./node_modules/.bin/eslint . || true",
     "build": "webpack -p",
     "start": "webpack -p && webpack-dev-server",
-    "publish-test": "webpack -p && DEPLOY_ENV=test node deploy/s3-deploy.js",
-    "publish-prod": "webpack -p && DEPLOY_ENV=production node deploy/s3-deploy.js",
+    "publish-cdn-test": "webpack -p && DEPLOY_ENV=test node deploy/s3-deploy.js",
+    "publish-cdn-prod": "webpack -p && DEPLOY_ENV=production node deploy/s3-deploy.js",
     "deploy-azure-latest": "webpack -p && grunt publish",
-    "deploy-azure-version": "webpack -p && grunt publish:version"
+    "deploy-azure-version": "webpack -p && grunt publish:version",
+    "prepublish": "webpack -p"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
