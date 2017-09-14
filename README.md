@@ -1,6 +1,6 @@
 # autochart-tracker
 
-A client-side JavaScript API for tracking automotive website events with [AutoChart.io](https://autochart.io).
+A client-side JavaScript API for tracking automotive website events with [Autochart.io](https://autochart.io).
 
 ## Pre-Requisite
 Login to the [Autochart portal](https://portal.autochart.io) and get the **Tracking Key** from your account's settings page.
