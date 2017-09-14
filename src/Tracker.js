@@ -6,7 +6,7 @@ import BrowserContext from './browser-context';
 import Utils from './utils';
 import { version } from '../package.json';
 
-const disabledAccounts = config.disabledAccounts;
+const { disabledAccounts } = config;
 const ACTIONS_COLLECTION = 'VisitorActions';
 const TAGS_COLLECTION = 'VisitorTags';
 
@@ -101,13 +101,17 @@ Tracker.prototype.trackVehicleView = function trackVehicleView(vehicle, timestam
  * @param  {Date} timestamp - time the event was sent. If not specified, defaults to Date.now().
  * @param  {function(err, response)} done - callback fired when event completes
  */
-Tracker.prototype.trackVehicleAction = function trackVehicleAction(vehicle, actionCategory,
-    timestamp, done) {
-    return this.trackVisitorAction('VehicleAction', {
-        vehicles: [vehicle],
-        actionCategory
-    },
-    timestamp, done);
+Tracker.prototype.trackVehicleAction = function trackVehicleAction(
+    vehicle, actionCategory, timestamp, done
+) {
+    return this.trackVisitorAction(
+        'VehicleAction', {
+            vehicles: [vehicle],
+            actionCategory
+        },
+        timestamp,
+        done
+    );
 };
 
 /**

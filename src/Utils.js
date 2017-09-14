@@ -48,7 +48,7 @@ export default {
             return {};
         }
         return document.location.search.replace(/(^\?)/, '').split('&').map(function convert(n) {
-            /* eslint no-param-reassign:0 */
+            /* eslint no-param-reassign:0, prefer-destructuring:0 */
             n = n.split('=');
             this[n[0]] = n[1];
             return this;
@@ -61,7 +61,6 @@ export default {
                 log('No handler defined for beforePostbackAsync');
                 return;
             }
-            /* jshint camelcase:false */
             let origPostBackHandler;
             if (typeof window.WebForm_DoPostBackWithOptions === 'function') {
                 // First ensure that the rawEvent is passed into the onclick
@@ -73,7 +72,8 @@ export default {
                 //      javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(
                 //            "MyAppFormSubmit1$Submit","",true,"MyApp","",false,false),event)"
                 const triggerButton = triggerControlId ? document.getElementById(
-                    triggerControlId.replace(/\\\$/, '_')) : null;
+                    triggerControlId.replace(/\\\$/, '_')
+                ) : null;
                 if (triggerButton && triggerButton.getAttribute('onclick')) {
                     log(`Appending to onclick attribute for ${triggerControlId}`);
                     triggerButton.setAttribute('onclick',
@@ -101,7 +101,8 @@ export default {
                                 /* eslint no-underscore-dangle:0 */
                                 if (window.__doPostBack) {
                                     window.__doPostBack(
-                                        postBackOptions.eventTarget, postBackOptions.eventArgument);
+                                        postBackOptions.eventTarget, postBackOptions.eventArgument
+                                    );
                                 }
                             });
                         }

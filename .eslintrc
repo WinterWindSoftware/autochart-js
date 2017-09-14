@@ -14,6 +14,7 @@
         }],
         "no-unused-vars": ["warn","all"],
         "no-use-before-define": ["error", "nofunc"],
-        "arrow-body-style": ["error", "as-needed", {"requireReturnForObjectLiteral": true }]
+        "arrow-body-style": ["error", "as-needed", {"requireReturnForObjectLiteral": true }],
+        "function-paren-newline": ["error", "consistent"]
     }
 }
