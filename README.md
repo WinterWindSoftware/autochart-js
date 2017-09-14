@@ -39,19 +39,19 @@ acTracker.init('<YourCustomerAccountIdHere>');
 ```
 
 ## Usage
-Add calls to `autochart.track*` functions to send event data to AutoChart.
+Add calls to `autochart.track*` functions to send event data to Autochart.
 
 ## Disabling Tracking
-If you need to disable tracking on a website which already has AutoChart tracking hooks in place, you should insert the following line of code at the top of your tracking snippet (as the first line inside your `<script>` tag):
+If you need to disable tracking on a website which already has Autochart tracking hooks in place, you should insert the following line of code at the top of your tracking snippet (as the first line inside your `<script>` tag):
 
 ```javascript
 window.AUTOCHART_DISABLED = true;
 ```
 
-This will prevent any events from being sent to the AutoChart servers.
+This will prevent any events from being sent to the Autochart servers.
 
 ## Developer Guide
-Check out [the wiki](https://github.com/WinterWindSoftware/autochart-tracker/wiki) for more details on building a tracking implementation with AutoChart.
+Check out [the wiki](https://github.com/WinterWindSoftware/autochart-tracker/wiki) for more details on building a tracking implementation with Autochart.
 
 ## Support
 If you need help with anything, drop us an email at [support@autochart.io](mailto:support@autochart.io) and we'll be happy to help out.
