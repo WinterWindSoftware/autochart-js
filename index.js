@@ -1,10 +1,9 @@
 import Tracker from './src/tracker';
 import Utils from './src/utils';
 
-const autochart = new Tracker();
-
 // Replay queued async methods
 if (window) {
+    const autochart = new Tracker();
     // Copy queued methods
     const queued = window.autochart || [];
 
@@ -25,4 +24,7 @@ if (window) {
     window.AutoChartTracker = Tracker;
 }
 
-export default autochart;
+export default {
+    Tracker,
+    Utils
+};
